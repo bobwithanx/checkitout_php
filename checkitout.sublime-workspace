@@ -1,0 +1,213 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 367.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Laravel ",
+				"Laravel Artisan 5: List"
+			],
+			[
+				"pack",
+				"Package Control: Enable Package"
+			]
+		],
+		"width": 485.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/marquis/Dropbox/Code/checkitout",
+		"/Users/marquis/Dropbox/Code/checkitout/app",
+		"/Users/marquis/Dropbox/Code/checkitout/app/commands",
+		"/Users/marquis/Dropbox/Code/checkitout/app/Http",
+		"/Users/marquis/Dropbox/Code/checkitout/app/Http/Controllers",
+		"/Users/marquis/Dropbox/Code/checkitout/app/Http/Controllers/Auth",
+		"/Users/marquis/Dropbox/Code/checkitout/resources",
+		"/Users/marquis/Dropbox/Code/checkitout/resources/views",
+		"/Users/marquis/Dropbox/Code/checkitout/resources/views/students"
+	],
+	"file_history":
+	[
+		"/Users/marquis/Library/Application Support/Sublime Text 3/Packages/User/Side Bar Folders.sublime-settings",
+		"/Users/marquis/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/marquis/Library/Application Support/Sublime Text 3/Packages/Laravel-Cheat-Sheet/snippets/Eloquent.sublime-settings",
+		"/Users/marquis/Dropbox/Code/checkitout/checkitout.sublime-project",
+		"/Users/marquis/Library/Application Support/Sublime Text 3/Packages/Laravel 5 Artisan/Laravel 5 Artisan.sublime-settings",
+		"/Users/marquis/Dropbox/Code/checkitout/artisan",
+		"/Users/marquis/Downloads/Package Control.sublime-package",
+		"/Users/marquis/Downloads/Metro_Tech_Film-2.mobileconfig",
+		"/Users/marquis/Downloads/Metro_Tech_Film.mobileconfig",
+		"/Users/marquis/Downloads/Settings_for_Film_Class-3.mobileconfig",
+		"/Users/marquis/Downloads/Settings_for_Film_Class-2.mobileconfig",
+		"/Users/marquis/Downloads/Settings_for_New_Device_Group.mobileconfig",
+		"/Users/marquis/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/marquis/Dropbox/Teaching/Metro Tech/Student Info/Little Red Riding hood.fountain"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"><",
+			"smb:",
+			"><",
+			"^",
+			"plist"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			">\\n<"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "checkitout.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 255.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
