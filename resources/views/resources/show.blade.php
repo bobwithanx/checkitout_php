@@ -5,10 +5,6 @@
 @section('content')
 
 <div class="container page-content">
-  <div>
-    <a href="{{ url('/admin') }}">Dashboard</a> > <a href="{{ url('/resources') }}">Inventory</a> > {{ $resource->name }}
-  </div>
-
   <h3 class="sub-header">{{ $resource->name }} <small>{{ $resource->inventory_tag }}</small></h3>
 @if( ! empty($resource['serial_number']))
     <div>Serial Number: {{ $resource->serial_number }}</div>
@@ -25,7 +21,7 @@
     </div>
 
     <!-- Current Equipment -->
-        <div class="panel panel-default">
+    <div class="panel panel-default" style="max-height: 100vmin; overflow-y: scroll;">
             <div class="panel-heading">
                 Lending History
             </div>
@@ -45,12 +41,13 @@
 
                     <!-- Table Body -->
                     <tbody>
+                    @foreach ($resource->transactions as $transaction)
 
                             <tr>
                                 <!-- Item Name -->
-                                <td class="table-text"></td>
-                                <td class="table-text"></td>
-                                <td class="table-text"></td>
+                                <td class="table-text"><a href="{{ url('students/'.$transaction->student->id)}}">{{ $transaction->student->full_name }}</a> <small class="text-muted">{{ $transaction->student->id_number }}</small></td>
+                                <td class="table-text">{{ $transaction->created_at }}</td>
+                                <td class="table-text">{{ $transaction->returned_at }}</td>
 
                                 <!-- Delete Button -->
                                 <td>
@@ -64,7 +61,8 @@
                                     </form>
                                 </td>
                             </tr>
-                    </tbody>
+                            @endforeach
+                        </tbody>
                 </table>
             </div>
         </div>

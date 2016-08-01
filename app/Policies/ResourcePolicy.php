@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\Student;
+use App\Resource;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class StudentPolicy
+class ResourcePolicy
 {
     use HandlesAuthorization;
 
@@ -17,7 +17,7 @@ class StudentPolicy
      * @param  Student  $student
      * @return bool
      */
-    public function destroy(User $user, Student $student)
+    public function destroy(User $user, Resource $resource)
     {
         return true;
     }

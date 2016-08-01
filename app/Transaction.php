@@ -11,7 +11,7 @@ class Transaction extends Model
      *
      * @var array
      */
-    protected $fillable = ['student_id', 'resource_id'];
+    protected $fillable = ['student_id', 'resource_id', 'returned_at'];
 
     /**
      * The attributes that should be cast to native types.
@@ -22,6 +22,8 @@ class Transaction extends Model
 	    'student_id' => 'int',
 	    'resource_id' => 'int',
     ];
+
+    protected $dates = ['created_at', 'updated_at', 'returned_at'];
 
     /**
      * A transaction belongs to a student.

@@ -4,50 +4,65 @@ namespace App;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'id_number', 'group_id', 'grade_level_id', 'is_active'];
-    
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'group_id' => 'int',
-        'grade_level_id' => 'int',
-        'is_active' => 'bool',
-    ];
+    protected $fillable = ['first_name', 'last_name', 'id_number'];
 
-    /**
-     * A resource belongs to a category.
-     *
-     * @var array
-     */
-    public function group()
-    {
-      return $this->belongsTo('App\Group');
+    protected $dates = ['deleted_at'];
+
+    public function getFullNameAttribute() {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
-     * A resource belongs to a category.
+     * Get the tags associated with this user.
      *
-     * @var array
      */
-    public function grade_level()
+    public function tags()
     {
-      return $this->belongsTo('App\GradeLevel');
+        return $this->belongsToMany('App\Tag');
+    }
+
+    public static function findByStudentId($id_number)
+    {
+        return Student::where('id_number', $id_number)->first();
     }
 
     public function transactions()
     {
         return $this->hasMany('App\Transaction');
+    }
+
+    public function transactions_current()
+    {
+        $transactions = $this->transactions()->whereNull('transactions.returned_at');
+        if ($transactions) {
+            return $transactions;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public function transactions_history()
+    {
+        $transactions = $this->transactions()->whereNotNull('transactions.returned_at')
+            ->orderBy('returned_at', 'DESC');
+        if ($transactions) {
+            return $transactions;
+        }
+        else {
+            return 0;
+        }
     }
 
 }

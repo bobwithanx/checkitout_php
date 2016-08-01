@@ -1,0 +1,42 @@
+.panel-heading h3 {
+	margin-top: 0px;
+}
+.table-row {
+	position:relative;
+}
+.hover-btn {
+/*   position: absolute;
+   right: 15px;
+   */   display: none;
+}
+
+.btn.outline {
+	background: none;
+}
+
+
+.btn-muted.outline {
+	border: 1px solid #AAA;
+	color: #AAA;
+}
+
+.btn-muted-danger.outline:hover {
+	border: 1px solid #b92c28;
+	color: #d9534f;
+}
+
+.table-row:hover .hover-btn {
+	display: inline;
+}
+
+.border-right {
+	border-right: 1px solid #ddd;
+	margin-right: -1px;
+}
+.border-left {
+	border-left: 1px solid #ddd;
+}
+
+body {
+	background-color: #aaa;
+}

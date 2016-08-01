@@ -1,3 +1,70 @@
-#addStudentModal .form-group, #addInventoryModal .form-group {
+.navbar-brand {
+	font-weight: bold;
+}
+
+.navbar-default {
+	background-color: #fff;
+}
+
+body {
+	font-family: 'Lato';
+	background-color: #f8f8fb;
+}
+
+#addStudentModal .form-group, #addResourceModal .form-group {
   padding: 0px 15px;
+}
+
+.panel-heading h3 {
+	margin-top: 0px;
+}
+
+.table {
+	border: 1px solid #dddddd;
+}
+
+.table-row {
+	position:relative;
+}
+
+.table-text {
+	color: #777;
+}
+
+.tab-content {
+	padding-top: 20px;
+}
+
+.btn.outline {
+	background: none;
+}
+
+.btn-muted.outline {
+	border: 1px solid #AAA;
+	color: #AAA;
+}
+
+.btn-muted-danger.outline:hover {
+	border: 1px solid #b92c28;
+	color: #d9534f;
+}
+
+.fa-btn {
+	margin-right: 6px;
+}
+
+.sub-header {
+	margin-bottom: 20px;
+}
+
+.sub-header .label {
+	vertical-align: text-top;
+}
+
+.panel>.table th:first-child, .panel>.table td:first-child {
+	padding-left: 15px;
+}
+
+.panel>.table th:last-child, .panel>.table td:last-child {
+	padding-right: 15px;
 }

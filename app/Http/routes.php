@@ -23,17 +23,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/students', 'StudentController@index');
-Route::post('/student', 'StudentController@store');
-Route::post('/student/{student}/borrow', 'StudentController@borrow');
-Route::get('/student/{student}', 'StudentController@show');
-Route::delete('/student/{student}', 'StudentController@destroy');
+Route::get('/dashboard', 'MainController@dashboard');
+Route::get('/reports', 'MainController@reports');
 
-Route::get('/resources', 'ResourceController@index');
-Route::post('/resources', 'ResourceController@store');
-Route::get('/resource/{resource}', 'ResourceController@show');
-// Route::get('/resource/{resource}/edit', 'ResourceController@edit');
-// Route::put('/resource/{resource}', 'ResourceController@update');
-Route::delete('/resource/{resource}', 'ResourceController@destroy');
+Route::resource('students', 'StudentController');
+Route::resource('resources', 'ResourceController');
+Route::resource('categories', 'CategoryController');
+
+Route::post('/students/search', 'StudentController@searchStudent');
+
+Route::post('/students/import', 'StudentController@import');
+Route::post('/resources/import', 'ResourceController@import');
+Route::post('/students/{students}/borrow', 'StudentController@borrowItem');
+Route::post('/students/{students}/return', 'StudentController@returnItem');
 
 Route::get('/admin', 'AdminController@index');

@@ -20,6 +20,7 @@ class CreateResourcesTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('inventory_tag')->unique();
             $table->string('serial_number')->nullable();
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
 
             $table->foreign('category_id')

@@ -2,38 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
 use App\Student;
-use App\Group;
-use App\GradeLevel;
+use App\Resource;
+use App\Category;
 use App\Transaction;
+
+use App\Http\Requests;
+use App\Http\Requests\StudentRequest;
+use Illuminate\Http\Request;
+use Illuminate\HttpResponse;
+use App\Http\Controllers\Controller;
 use App\Repositories\StudentRepository;
+
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
-    /**
-     * The student repository instance.
-     *
-     * @var StudentRepository
-     */
-    protected $students;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  StudentRepository  $tasks
-     * @return void
-     */
-    public function __construct(StudentRepository $students)
-    {
-        $this->middleware('auth');
-
-        $this->students = $students;
-    }
-
     /**
      * Display a list of all of the user's students.
      *
@@ -42,67 +26,149 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        return view('students.index', array(
-            'students' => Student::all(),
-            'groups' => Group::all(),
-            'grade_levels' => GradeLevel::all(),
-        ));
+        $students =  Student::all();
+
+        return view('students.index', compact('students'));
     }
     
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'id_number' => 'required|max:255',
-            'group_id' => 'integer',
-            'grade_level_id' => 'integer',
-            'is_active' => 'boolean',
-            ]);
+        Student::create($request->all());
 
-        Student::create(array(
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'id_number' => $request->id_number,
-            'group_id' => $request->group_id,
-            'grade_level_id' => $request->grade_level_id,
-            'is_active' => $request->is_active,
-            ));
-
-        return redirect('/students');
+        return redirect('students');
     }
 
-    public function borrow(Request $request)
+    public function edit($id)
     {
-        // dd($request->all());
-        Transaction::create($request->all());
+      $student = Student::findOrFail($id);
 
-        // $this->validate($request, [
-        //     'student_id' => 'integer',
-        //     'resource_id' => 'integer',
-        //     ]);
-
-        // Transaction::create(array(
-        //     'student_id' => $request->student_id,
-        //     'resource_id' => $request->resource_id,
-        // ));
-
-        return redirect('/student/' . $request->student_id);
+      return view('students.edit', compact('student'));
     }
 
-    public function destroy(Request $request, Student $student)
-      {
-          $this->authorize('destroy', $student);
-          $student->delete();
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, StudentRequest $request)
+    {
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+      // $rules = array(
+      //   'name'       => 'required',
+      // );
+      // $validator = Validator::make(Input::all(), $rules);
 
-          return redirect('/students');
-      }
-
-      public function show($id)
-      {  
-          $student = Student::findOrFail($id);
-          $resources = \App\Resource::lists('name', 'id');
+      //   // process the login
+      // if ($validator->fails()) {
+      //   return Redirect::to('students/' . $id . '/edit')
+      //   ->withErrors($validator)
+      //   ->withInput(Input::except('password'));
+      // } else {
+            // store
       
-          return view('students.show', compact('student', 'resources'));
+        $student = Student::findOrFail($id);
+        $student->update($request->all());
+
+            // redirect
+        return redirect('students');
       }
-}
+    // }
+
+    public function searchStudent(Request $request)
+    {
+      $student = Student::findByStudentId($request->student_id);
+
+      return redirect('/students/' . $student->id);
+    }
+
+    public function borrowItem($student_id, Request $request)
+    {
+      $resource = Resource::findByInventoryTag($request->inventory_tag);
+
+      Transaction::create(array(
+        'student_id' => $student_id,
+        'resource_id' => $resource->id
+      ));
+
+      $resource->is_available = false;
+      $resource->save();
+
+      return redirect('/students/' . $student_id);
+    }
+
+    public function returnItem(Request $request)
+    {
+      $transaction = Transaction::findOrFail($request->transaction_id);
+
+      $resource = Resource::findOrFail($transaction->resource_id);
+      $resource->is_available = true;
+      $resource->save();
+
+      $transaction->returned_at = Carbon::now();
+      $transaction->save();
+
+      return redirect('/students/' . $transaction->student->id);
+    }
+
+    public function destroy(Student $students)
+    {
+      $this->authorize('destroy', $students);
+      $students->delete();
+
+      return redirect('/students');
+    }
+
+    public function destroyTransaction(Request $request, Student $student, Transaction $transaction)
+    {
+      // $this->authorize('destroy', $transaction);
+      $student_id = $transaction->student->id;
+      $transaction->delete();
+
+      return redirect('/student/' . $student_id);
+    }
+
+    public function show($id)
+    {
+      if ($id < 100000) {
+        $student = Student::findOrFail($id);
+      }
+      else {
+        $student = Student::findByStudentId($request->student_id);
+      }
+
+
+      $resources = Resource::available()->lists('name', 'id');
+
+      return view('students.show', compact('student', 'resources'));
+    }
+
+    public function import(Request $request)
+    {
+      $csvFilePath = $request->file('csv')->getRealPath();
+
+      if (($handle = fopen($csvFilePath,'r')) !== FALSE)
+      {
+        while (($data = fgetcsv($handle, 1000, ',')) !==FALSE)
+        {
+          $student = new Student();
+          $student->last_name = $data[0];
+          $student->first_name = $data[1];
+          $student->id_number = $data[2];
+          $student->save();
+        }
+        fclose($handle);
+      }
+
+      return redirect('/students');
+    }
+
+    public function showHistory($id)
+    {
+      $student = Student::findOrFail($id);
+      $resources = Resource::available()->lists('name', 'id');
+
+      return view('students.history', compact('student', 'resources'));
+    }
+  }

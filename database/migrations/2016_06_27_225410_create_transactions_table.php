@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->integer('resource_id')->unsigned();
+            $table->timestamp('returned_at')->nullable();
             $table->timestamps();
         });
  

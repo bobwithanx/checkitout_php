@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Resource;
 use App\Student;
+use App\Category;
 
 use Illuminate\Http\Request;
 
@@ -26,9 +27,14 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $students = Student::all();
+        $resources = Resource::all();
+        $categories = Category::all();
+
         $student_count = Student::all()->count();
         $resource_count = Resource::all()->count();
+        $category_count = Category::all()->count();
 
-        return view('admin')->with(array('student_count'=>$student_count, 'resource_count'=>$resource_count));
+        return view('admin', compact('students', 'resources', 'categories', 'student_count', 'resource_count', 'category_count'));
     }
 }

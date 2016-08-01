@@ -2,36 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
 use App\Resource;
 use App\Category;
+use App\Student;
+
+
+use App\Http\Requests;
+use App\Http\Requests\ResourceRequest;
+use Illuminate\Http\Request;
+use Illuminate\HttpResponse;
+use App\Http\Controllers\Controller;
 use App\Repositories\ResourceRepository;
+
+use Carbon\Carbon;
 
 class ResourceController extends Controller
 {
-    /**
-     * The inventory repository instance.
-     *
-     * @var StudentRepository
-     */
-    protected $resources;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  StudentRepository  $tasks
-     * @return void
-     */
-    public function __construct(ResourceRepository $resources)
-    {
-        $this->middleware('auth');
-
-        $this->resources = $resources;
-    }
-
     /**
      * Display a list of all of the user's students.
      *
@@ -42,8 +28,9 @@ class ResourceController extends Controller
     {
         $resources = Resource::all();
         $categories = Category::pluck('name', 'id');
+        $filter = $request->filter;
 
-        return view('resources.index', compact('resources', 'categories'));
+        return view('resources.index', compact('resources', 'categories', 'filter'));
     }
     
     public function store(Request $request)
@@ -63,20 +50,61 @@ class ResourceController extends Controller
         ));
 
         return redirect('/resources');
-      }
+    }
 
-      public function destroy(Request $request, Resource $resource)
-      {
-          $this->authorize('destroy', $resource);
-          $resource->delete();
+    public function destroy(Resource $resources)
+    {
+        $this->authorize('destroy', $resources);
+        $resources->delete();
 
-          return redirect('/resources');
-      }
+        return redirect('/resources');
+    }
 
-      public function show($id)
-      { 
-          $resource = Resource::findOrFail($id);
+    public function edit($id)
+    {
+      $resource = Resource::findOrFail($id);
+      $categories = Category::all()->sortBy('name')->lists('name', 'id');
+
+      return view('resources.edit', compact('resource', 'categories'));
+    }
+
+    public function update($id, ResourceRequest $request)
+    {
+      $resource = Resource::findOrFail($id);
+      $resource->update($request->all());
       
-          return view('resources.show')->with('resource', $resource);
+      return redirect('resources');
+    }
+
+    public function show($id)
+    { 
+        $resource = Resource::findOrFail($id);
+    
+        return view('resources.show')->with('resource', $resource);
+    }
+
+    public function import(Request $request)
+    {
+      $csvFilePath = $request->file('csv')->getRealPath();
+
+      if (($handle = fopen($csvFilePath,'r')) !== FALSE)
+      {
+        while (($data = fgetcsv($handle, 1000, ',')) !==FALSE)
+        {
+          $resource = new Resource();
+          $resource->name = $data[0];
+
+          $category = Category::where('name', (string)$data[1])->firstOrFail();
+
+          $resource->category_id = $category->id;
+
+          $resource->inventory_tag = $data[2];
+          $resource->serial_number = $data[3] ?: null;
+          $resource->save();
+        }
+        fclose($handle);
       }
+
+      return redirect('/resources');
+    }
 }

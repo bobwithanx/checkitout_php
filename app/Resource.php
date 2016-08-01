@@ -12,7 +12,7 @@ class Resource extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'inventory_tag', 'category_id', 'serial_number'];
+    protected $fillable = ['name', 'inventory_tag', 'category_id', 'serial_number', 'is_available'];
     
     /**
      * The attributes that should be cast to native types.
@@ -21,8 +21,8 @@ class Resource extends Model
      */
     protected $casts = [
         'category_id' => 'integer',
-        'is_active' => 'bool',
-    ];
+        'is_available' => 'bool',
+        ];
 
     /**
      * A resource belongs to a category.
@@ -39,8 +39,29 @@ class Resource extends Model
         return $this->hasMany('App\Transaction');
     }
 
-    public function is_available()
+    public static function findByInventoryTag($tag)
     {
-        return $this->transactions->count() == 0;
+        return Resource::where('inventory_tag', $tag)->first();
+    }
+
+    public static function findBySerialNumber($sn)
+    {
+        return Resource::where('serial_number', $sn)->first();
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', true);
+    }
+
+    public function scopeOnLoan($query)
+    {
+        return $query
+            ->where('is_available', false);
+    }
+
+    public function isAvailable()
+    {
+        return $this->is_available;
     }
 }
