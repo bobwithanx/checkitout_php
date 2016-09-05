@@ -19,6 +19,7 @@
     <link href="{{ URL::asset('assets/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 {{--     <link href="{{ URL::asset('assets/css/bootstrap-table.min.css') }}" rel="stylesheet">
  --}}    <link href="{{ URL::asset('assets/css/select.dataTables.min.css') }}" rel="stylesheet">
+
 </head>
 
 <body id="app-layout">

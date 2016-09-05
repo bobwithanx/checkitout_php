@@ -110,7 +110,6 @@ border-top: none;}
                                  <a href="{{route('resources.edit', $resource->id)}}" data-toggle="modal" data-target="#addResourceModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                  {!! Form::open(['method' => 'DELETE', 'action' => ['ResourceController@destroy', $resource->id], 'id'=>'delete-resource-'.$resource->id.'-form', 'style'=>'display:inline;']) !!}
                                  <a href="#" class="confirm-box btn btn-danger btn-xs" id="delete-resource-{{ $resource->id }}"><i class="fa fa-trash"></i></a>
-                                 </button>
                                  {{ Form::close() }}
                                 </td>
                                 @endif

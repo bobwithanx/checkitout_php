@@ -1,14 +1,18 @@
+.container {
+	max-width: 1000px;
+}
+
 .navbar-brand {
 	font-weight: bold;
 }
 
 .navbar-default {
-	background-color: #fff;
+	background-color: #f8f8fb;
 }
 
 body {
 	font-family: 'Lato';
-	background-color: #f8f8fb;
+	background-color: #fff;
 }
 
 #addStudentModal .form-group, #addResourceModal .form-group {
@@ -17,6 +21,11 @@ body {
 
 .panel-heading h3 {
 	margin-top: 0px;
+}
+
+.panel-heading {
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .table {
@@ -47,6 +56,18 @@ body {
 .btn-muted-danger.outline:hover {
 	border: 1px solid #b92c28;
 	color: #d9534f;
+}
+
+.inventory-tag {
+	padding-left: 6px;
+}
+
+.category {
+	padding-right: 6px;
+}
+
+.summary-count h2 {
+	margin: 0px;
 }
 
 .fa-btn {

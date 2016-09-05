@@ -73,7 +73,6 @@ $(document).ready(function(){
                                 {!! Form::open(['method' => 'DELETE', 'action' => ['StudentController@destroy', $student->id], 'id'=>'delete-student-'.$student->id.'-form', 'style'=>'display:inline;']) !!}
 
                                 <a href="#" class="confirm-box btn btn-danger btn-xs" id="delete-student-{{ $student->id }}"><i class="fa fa-trash"></i></a>
-                            </button>
                             {{ Form::close() }}
                         </td>
                         @endif

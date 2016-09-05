@@ -15,10 +15,10 @@
 </style>
 
 <script>$(document).ready(function(){
-        $('#transactionTable').DataTable({
+        $('#historyTable').DataTable({
             "lengthChange": false,
             "filter": false,
-            "order": [[ 2, 'asc' ]],
+            "order": [[ 2, 'desc' ]],
         } );
         $('.collapse').collapse("hide");
         // $('div.dataTables_filter input').focus();
@@ -26,49 +26,110 @@
 
 <div class="container page-content">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-xs-3">
             <div class="sub-header">
-                <h1>{{ $student->full_name }}
+                <h3>{{ $student->full_name }}
                    {{--  <small class="h4 text-muted"><span class="label label-info">{{ $student->id_number }}</span></small> --}}
-                </h1>
-                <div>
+                </h3>
                 <div class="h4 text-muted">
                     {{ $student->id_number }}
                 </div>
-                <h4>
-{{--                     <div class="label label-default">$student->tag->name</div>
- --}}                </h4>
+                    <hr>
+                <div class="row">
+                    <div class="text-muted text-center col-xs-4 summary-count">
+                        <h2>
+                            {{ $student->transactions_current->count() }}
+                        </h2>
+                        Current
+                    </div>
+                    <div class="text-muted text-center col-xs-4 summary-count">
+                        <h2>
+                        {{ $student->transactions_history->count() }}
+                        </h2>
+                        History
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {!! Form::open(['url' => 'students/' . $student->id . '/borrow']) !!}
-                    <div class="input-group">
-                        {!! Form::text('inventory_tag', null, ['placeholder' => 'Scan or type an INVENTORY TAG to check out an item.', 'class'=>'form-control', 'autofocus']) !!}
-                        <span class="input-group-btn">
-                            {{Form::button('<i class="fa fa-check"></i>', array('type' => 'submit', 'class' => 'btn btn-primary'))}}</span>
-                        </div><!-- /input-group -->
+        <div class="col-xs-9">
 
+            <div>
 
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    <div class="col-md-9">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab"><i class="fa fa-fw fa-briefcase"></i>&nbsp;Current</a></li>
+                <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-fw fa-history"></i> History</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="current">
+                    <div class="row">
+                    <div class="col-sm-6">
+                            {!! Form::open(['url' => 'students/' . $student->id . '/borrow']) !!}
+                            <div class="input-group">
+                                {!! Form::text('inventory_tag', null, ['placeholder' => 'Enter INVENTORY TAG', 'class'=>'form-control', 'autofocus']) !!}
+                                <span class="input-group-btn">
+                                    {{Form::button('<i class="fa fa-arrow-right"></i>', array('type' => 'submit', 'class' => 'btn btn-success'))}}</span>
+                            </div><!-- /input-group -->
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+<hr>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        Current Loans
+                        </div>
+                            <table class="table table-hover" id="transactionTable">
+                                <!-- Table Body -->
+                                <tbody>
+                                    @foreach ( $student->transactions_current as $transaction )
+                                    <tr class="table-row">
+                                        <!-- Equipment Name -->
+                                        <td class="table-text">
+                                            <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
+                                            <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                            <small class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</small>
+                                        </td>
+                                        <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
+                                            @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                            Today, {{ $transaction->created_at->format('g:i a') }}
+                                            @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                            Yesterday, {{ $transaction->created_at->format('g:i a') }}
+                                            @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
+                                            < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                            @else
+                                            {{ $transaction->created_at->format('M j Y, g:i a') }}
+                                            @endif</td>
+
+                                            <td>
+                                                {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
+                                                {{ Form::hidden('transaction_id', $transaction->id)}}
+                                            {{ Form::button('<i class="fa fa-check"></i> Check In', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
+                                            {{ Form::close() }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+</tbody>
+</table>
+</div>
+
         {{--
             <div class="panel-body">--}}
                 <!-- Display Validation Errors -->{{--                     @include('common.errors')
  --}}{{--
             </div>--}}
             <!-- Current Student -->
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="history">
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Loan History
                 </div>
                 <div class="panel-body">
-                    <table class="table table-hover table-condensed" id="transactionTable">
+                    <table class="table table-hover table-condensed" id="historyTable">
                         <!-- Table Headings -->
                         <thead>
                             <th>Resource</th>
@@ -77,35 +138,6 @@
                         </thead>
                         <!-- Table Body -->
                         <tbody>
-                            @foreach ( $student->transactions_current as $transaction )
-                            <tr class="table-row warning">
-                                <!-- Equipment Name -->
-                                <td class="table-text">
-                                    <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }}"></i>
-                                    <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
-                                    <small class="text-muted">{{ $transaction->resource->inventory_tag }}</small>
-                                </td>
-                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
-                                    @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                    Today, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                    Yesterday, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
-                                    @else
-                                    {{ $transaction->created_at->format('M j Y, g:i a') }}
-                                    @endif</td>
-
-                                <td>
-                                    {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
-                                    {{ Form::hidden('transaction_id', $transaction->id)}}
-                                            {{ Form::button('
-                                            check in >', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
-                                            {{ Form::close() }}
-                                            </td>
-                                </tr>
-                            @endforeach
-
                         @foreach ($student->transactions_history as $transaction)
                                 <tr class="table-row">
                                     <!-- Equipment Name -->
@@ -157,6 +189,9 @@
     {!! Form::submit('Borrow', ['class' => 'btn btn-xs btn-primary']) !!}
     {!! Form::close() !!}
  --}}
+</div>
+
+
 </div>
 
     <!-- Modal -->
