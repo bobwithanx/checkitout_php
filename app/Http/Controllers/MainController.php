@@ -9,6 +9,7 @@ use App\Transaction;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 
 
 class MainController extends Controller
@@ -28,6 +29,19 @@ class MainController extends Controller
         $student = Student::findByStudentId($request->student_id);
 
         return redirect('/students/'.$student->id);
+    }
+
+    public function home()
+    {
+        // $students = DB::table('students')->where('transactions.returned_at', null);
+       $students = Transaction::with('student')->where('returned_at', null)->get();
+
+       $students = Student::has('open_transactions')->get();
+       // dd($students->toArray());
+
+        // $students = Student::whereNull('transactions.returned_at');
+
+        return view('welcome', compact('students'));
     }
 
     /**

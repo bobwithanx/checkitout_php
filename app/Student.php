@@ -44,25 +44,24 @@ class Student extends Model
 
     public function transactions_current()
     {
-        $transactions = $this->transactions()->whereNull('transactions.returned_at');
-        if ($transactions) {
-            return $transactions;
-        }
-        else {
-            return 0;
-        }
+        return $this->hasMany('App\Transaction')->current();
     }
 
-    public function transactions_history()
+    public function open_transactions()
     {
-        $transactions = $this->transactions()->whereNotNull('transactions.returned_at')
-            ->orderBy('returned_at', 'DESC');
-        if ($transactions) {
-            return $transactions;
-        }
-        else {
-            return 0;
-        }
+        return $this->hasMany('App\Transaction')->current();
     }
+
+    public function transactionsCountRelation()
+    {
+        return $this->hasOne('App\Transaction')->selectRaw('id, count(*) as count')->groupBy('id');
+    // replace module_id with appropriate foreign key if needed
+    }
+
+    public function getTransactionsCountAttribute()
+    {
+        return $this->transactionsCountRelation?$this->transactionsCountRelation->count:0;
+    }
+
 
 }

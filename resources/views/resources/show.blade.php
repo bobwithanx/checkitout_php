@@ -4,21 +4,45 @@
 
 @section('content')
 
+<script>$(document).ready(function(){
+    $('#historyTable').DataTable({
+        "lengthChange": false,
+        "filter": false,
+        "order": [[ 2, 'desc' ]],
+    } );
+    $('.collapse').collapse("hide");
+        // $('div.dataTables_filter input').focus();
+    });</script>
+
 <div class="container page-content">
-  <h3 class="sub-header">{{ $resource->name }} <small>{{ $resource->inventory_tag }}</small></h3>
-@if( ! empty($resource['serial_number']))
-    <div>Serial Number: {{ $resource->serial_number }}</div>
-@endif
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="sub-header">
+                <i class="fa fa-2x text-muted {{ $resource->category->icon }} category"></i>
+                <span class="h3">{{ $resource->name }}</span>
+            </div>
+            <div class="resource-metadata">
+                <div class="text-muted">Inventory Tag</div>
+                <div>{{ $resource->inventory_tag }}</div>
+            </div>
+            <hr>
+<div class="resource-metadata">
+    <div class="text-muted">Serial Number</div>
+    <div>{{ $resource->serial_number }}</div>
+</div>
          
-  <div class="row">
-    <div class="col-md-12">
+</div>
+<div class="col-xs-9">
 
     <!-- Bootstrap Boilerplate... -->
 
-    <div class="panel-body">
-        <!-- Display Validation Errors -->
+{{--     <div class="panel-body">
+        Display Validation Errors
         @include('common.errors')
     </div>
+ --}}
+
+ @include('errors.list')
 
     <!-- Current Equipment -->
     <div class="panel panel-default" style="max-height: 100vmin; overflow-y: scroll;">
@@ -27,7 +51,7 @@
             </div>
 
             <div class="panel-body">
-                <table class="table table-hover table-condensed">
+                <table class="table table-hover table-condensed" id="historyTable">
 
                     <!-- Table Headings -->
                     <thead>

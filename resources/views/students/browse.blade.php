@@ -1,15 +1,8 @@
 <!-- resources/views/students/index.blade.php -->
 
-@extends('layouts.app')
+@extends('layouts.modal')
 
 @section('content')
-
-<script>
-    $(document).on('click', '.confirm-box', function(event) {
-        bootbox.confirm('Are you sure?', function(result) {if (result) {  $( "#"+event.target.id+'-form' ).submit();    }});
-    }
-    );
-</script>
 
 <script>
 $(document).ready(function(){
@@ -28,20 +21,13 @@ $(document).ready(function(){
         border-top: none;}
   </style>
 
-<div class="container page-content">
+<div class="modal-content">
   <div class="row">
-  <div class="col-sm-2">
-        @include('layouts.navigation-db')
-    </div>
 
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="panel-heading">
             <span class="fa fa-fw fa-users"></span> Students
-          <div class="pull-right">
-            <a class="alert" href="#" data-toggle="modal" data-target="#importStudentsModal"><i class="fa fa-upload"></i> import students</a>
-            <a class="alert" href="#" data-toggle="modal" data-target="#addStudentModal"><i class="fa fa-plus-circle"></i> add student</a>
-        </div>
     </div>
     <div class="panel-body">
 
@@ -63,7 +49,8 @@ $(document).ready(function(){
                             <a href="{{ url('students/'.$student->id) }}">{{ $student->full_name }}</a>
                         </td>
                         <td class="table-text">{{ $student->id_number }}</td>
-                        <td class="table-text">{{ $student->transactionsCount }}
+                        <td class="table-text">{{ $student->transactions_current()->count() }}
+                            <span class="text-muted">({{ $student->transactions()->count() }} total)</span>
                         </td>
                         <!-- Delete Button -->
                             @if (Auth::user()->name == 'Admin')

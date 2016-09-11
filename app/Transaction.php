@@ -24,6 +24,19 @@ class Transaction extends Model
     ];
 
     protected $dates = ['created_at', 'updated_at', 'returned_at'];
+    
+
+    public function scopeCurrent($query)
+    {
+        return $query->whereNull('returned_at');
+    }
+
+
+    public function scopeHistory($query)
+    {
+        return $query->whereNotNull('returned_at');
+    }
+
 
     /**
      * A transaction belongs to a student.

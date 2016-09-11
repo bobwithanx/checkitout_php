@@ -26,11 +26,24 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $students =  Student::all();
+      $students =  Student::with('transactions')->get();
 
-        return view('students.index', compact('students'));
+      return view('students.index', compact('students'));
     }
-    
+
+    /**
+     * Display a list of all of the user's students.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function browse(Request $request)
+    {
+      $students =  Student::all();
+
+      return view('students.browse', compact('students'));
+    }
+
     public function store(StudentRequest $request)
     {
         Student::create($request->all());
@@ -137,11 +150,12 @@ class StudentController extends Controller
       else {
         $student = Student::findByStudentId($request->student_id);
       }
+      $current_loans = $student->transactions()->with('resource', 'resource.category')->current()->get();
+      $history = $student->transactions()->with('resource', 'resource.category')->history()->get();
 
+      // $resources = Resource::available()->lists('name', 'id');
 
-      $resources = Resource::available()->lists('name', 'id');
-
-      return view('students.show', compact('student', 'resources'));
+      return view('students.show', compact('student', 'current_loans', 'history', 'resources'));
     }
 
     public function import(Request $request)

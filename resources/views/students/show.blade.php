@@ -38,13 +38,13 @@
                 <div class="row">
                     <div class="text-muted text-center col-xs-4 summary-count">
                         <h2>
-                            {{ $student->transactions_current->count() }}
+                            {{ $current_loans->count() }}
                         </h2>
                         Current
                     </div>
                     <div class="text-muted text-center col-xs-4 summary-count">
                         <h2>
-                        {{ $student->transactions_history->count() }}
+                        {{ $history->count() }}
                         </h2>
                         History
                     </div>
@@ -83,7 +83,7 @@
                             <table class="table table-hover" id="transactionTable">
                                 <!-- Table Body -->
                                 <tbody>
-                                    @foreach ( $student->transactions_current as $transaction )
+                                    @foreach ( $current_loans as $transaction )
                                     <tr class="table-row">
                                         <!-- Equipment Name -->
                                         <td class="table-text">
@@ -105,7 +105,7 @@
                                             <td>
                                                 {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
                                                 {{ Form::hidden('transaction_id', $transaction->id)}}
-                                            {{ Form::button('<i class="fa fa-check"></i> Check In', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
+                                            {{ Form::button('<i class="fa fa-calendar-check-o"></i> Check In ', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
                                             {{ Form::close() }}
                                         </td>
                                     </tr>
@@ -138,7 +138,9 @@
                         </thead>
                         <!-- Table Body -->
                         <tbody>
-                        @foreach ($student->transactions_history as $transaction)
+{{--                             Array: {{ dd($student->transactions()->history()->get())}}
+ --}}
+                        @foreach ($history as $transaction)
                                 <tr class="table-row">
                                     <!-- Equipment Name -->
                                     <td class="table-text">
