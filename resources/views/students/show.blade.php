@@ -24,44 +24,33 @@
         // $('div.dataTables_filter input').focus();
     });</script>
 
-<div class="container page-content">
-    <div class="row">
-        <div class="col-xs-3">
-            <div class="sub-header">
-                <h3>{{ $student->full_name }}
-                   {{--  <small class="h4 text-muted"><span class="label label-info">{{ $student->id_number }}</span></small> --}}
-                </h3>
-                <div class="h4 text-muted">
-                    {{ $student->id_number }}
+<div class="details-header">
+    <div class="container page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="sub-header">
+                    <h3>{{ $student->full_name }}
+                        <span class="small text-muted">{{ $student->id_number }}</span>
+                    </h3>
                 </div>
-                    <hr>
-                <div class="row">
-                    <div class="text-muted text-center col-xs-4 summary-count">
-                        <h2>
-                            {{ $current_loans->count() }}
-                        </h2>
-                        Current
-                    </div>
-                    <div class="text-muted text-center col-xs-4 summary-count">
-                        <h2>
-                        {{ $history->count() }}
-                        </h2>
-                        History
-                    </div>
+
+                <div class="sub-tabs">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab"><i class="fa fa-fw fa-briefcase"></i>&nbsp;Current <span class="badge tab-badge">{{$current_loans->count()}}</span></a></li>
+                        <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-fw fa-history"></i> History</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="col-xs-9">
+    </div>
+</div>
+<div class="container page-content">
+    <div class="row">
+        <div class="col-xs-12">
 
-            <div>
-
-              <!-- Nav tabs -->
-              <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab"><i class="fa fa-fw fa-briefcase"></i>&nbsp;Current</a></li>
-                <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-fw fa-history"></i> History</a></li>
-            </ul>
-
-            <!-- Tab panes -->
+<!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="current">
                     <div class="row">
@@ -75,21 +64,25 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
-<hr>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                        Current Loans
-                        </div>
-                            <table class="table table-hover" id="transactionTable">
+{{--                     <div class="panel panel-info" style="margin-top: 20px;">
+ --}}                            <table class="table " id="transactionTable">
                                 <!-- Table Body -->
-                                <tbody>
-                                    @foreach ( $current_loans as $transaction )
+                                    <thead>
+                                        <th>Item</th>
+                                        <th>Inventory Tag</th>
+                                        <th>Borrowed</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                     @foreach ( $current_loans as $transaction )
                                     <tr class="table-row">
                                         <!-- Equipment Name -->
                                         <td class="table-text">
                                             <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
                                             <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
-                                            <small class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</small>
+                                            </td>
+                                            <td class="table-text">
+                                            <span class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</span>
                                         </td>
                                         <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
                                             @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
@@ -112,8 +105,8 @@
                                     @endforeach
 </tbody>
 </table>
-</div>
-
+{{-- </div>
+ --}}
         {{--
             <div class="panel-body">--}}
                 <!-- Display Validation Errors -->{{--                     @include('common.errors')

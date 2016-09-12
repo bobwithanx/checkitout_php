@@ -12,6 +12,18 @@
 	margin-bottom: 20px;
 }
 
+.nav-tabs>li>a, .nav-tabs>li>a:hover {
+	color: #777;
+	border-color: transparent;
+	border-width: 3px 1px 1px;
+	padding: 9px 15px;
+}
+
+.nav-tabs>li>a:hover {
+	color: #333;
+	text-decoration: none
+}
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover {
 	color: #111;
 	background-color: #fff;
@@ -20,6 +32,41 @@
 	padding: 9px 15px;
 }
 
+.nav-tabs {
+	border-bottom: none;
+}
+
+
+.tab-badge {
+	margin-left: 6px;
+	color: #555;
+	background-color: #eee;
+	padding: 2px 5px;
+	border: 1px solid #999;
+}
+
+#transactionTable {
+	margin-top: 20px;
+}
+
+#transactionTable thead>tr{
+	border: 1px solid #c9e6f2;
+}
+
+.table>thead>tr>th {
+	border-top: 1px solid #c9e6f2;
+	border-bottom: 1px solid #c9e6f2;
+	border-radius: 3px;
+}
+
+#transactionTable tbody>tr{
+	border: 1px solid #ddd;
+}
+
+#transactionTable thead {
+	color: #555;
+	background-color: #f2f9fc;
+}
 .nav>li>a:hover {
 	background-color: inherit;
 	border-color: transparent;
@@ -96,6 +143,15 @@ body {
 
 .fa-btn {
 	margin-right: 6px;
+}
+
+.details-header {
+	padding-bottom: 0;
+	background-color: #fafafa;
+	border-bottom: 1px solid #eee;
+	margin-right: -15px;
+	margin-top: -20px;
+	padding-top: 20px;
 }
 
 .sub-header {
