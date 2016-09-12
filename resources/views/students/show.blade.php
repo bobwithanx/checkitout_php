@@ -18,7 +18,7 @@
         $('#historyTable').DataTable({
             "lengthChange": false,
             "filter": false,
-            "order": [[ 2, 'desc' ]],
+            "bSort": false,
         } );
         $('.collapse').collapse("hide");
         // $('div.dataTables_filter input').focus();
@@ -49,12 +49,11 @@
 <div class="container page-content">
     <div class="row">
         <div class="col-xs-12">
-
-<!-- Tab panes -->
+            <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="current">
                     <div class="row">
-                    <div class="col-sm-6">
+                        <div class="col-sm-6">
                             {!! Form::open(['url' => 'students/' . $student->id . '/borrow']) !!}
                             <div class="input-group">
                                 {!! Form::text('inventory_tag', null, ['placeholder' => 'Enter INVENTORY TAG', 'class'=>'form-control', 'autofocus']) !!}
@@ -64,129 +63,112 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
-{{--                     <div class="panel panel-info" style="margin-top: 20px;">
- --}}                            <table class="table " id="transactionTable">
-                                <!-- Table Body -->
-                                    <thead>
-                                        <th>Item</th>
-                                        <th>Inventory Tag</th>
-                                        <th>Borrowed</th>
-                                        <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                     @foreach ( $current_loans as $transaction )
-                                    <tr class="table-row">
-                                        <!-- Equipment Name -->
-                                        <td class="table-text">
-                                            <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
-                                            <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
-                                            </td>
-                                            <td class="table-text">
-                                            <span class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</span>
-                                        </td>
-                                        <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
-                                            @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                            Today, {{ $transaction->created_at->format('g:i a') }}
-                                            @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                            Yesterday, {{ $transaction->created_at->format('g:i a') }}
-                                            @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                            < 7) {{ $transaction->created_at->format('l, g:i a') }}
-                                            @else
-                                            {{ $transaction->created_at->format('M j Y, g:i a') }}
-                                            @endif</td>
+                    <table class="table transactionTable" id="transactionTable">
+                        @if ( $current_loans->count() )
+                        <thead>
+                            <th>Item</th>
+                            <th>Inventory Tag</th>
+                            <th>Borrowed</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                             @foreach ( $current_loans as $transaction )
+                            <tr class="table-row">
+                                <!-- Equipment Name -->
+                                <td class="table-text">
+                                    <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
+                                    <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                </td>
+                                <td class="table-text">
+                                    <span class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</span>
+                                </td>
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
+                                    @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $transaction->created_at->format('g:i a') }}
+                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $transaction->created_at->format('g:i a') }}
+                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                    @else
+                                    {{ $transaction->created_at->format('M j Y, g:i a') }}
+                                    @endif</td>
 
-                                            <td>
-                                                {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
-                                                {{ Form::hidden('transaction_id', $transaction->id)}}
-                                            {{ Form::button('<i class="fa fa-calendar-check-o"></i> Check In ', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
-                                            {{ Form::close() }}
-                                        </td>
-                                    </tr>
-                                    @endforeach
-</tbody>
-</table>
-{{-- </div>
- --}}
-        {{--
-            <div class="panel-body">--}}
-                <!-- Display Validation Errors -->{{--                     @include('common.errors')
- --}}{{--
-            </div>--}}
-            <!-- Current Student -->
-
-    </div>
-    <div role="tabpanel" class="tab-pane" id="history">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Loan History
+                                    <td>
+                                        {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
+                                        {{ Form::hidden('transaction_id', $transaction->id)}}
+                                    {{ Form::button('<i class="fa fa-calendar-check-o"></i> Check In ', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
+                                    {{ Form::close() }}
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <thead>
+                                <td span=4 class="text-center">No items are currently on loan.</td>
+                            </thead>
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
-                <div class="panel-body">
-                    <table class="table table-hover table-condensed" id="historyTable">
+    
+                <div role="tabpanel" class="tab-pane" id="history">
+                    <table class="table historyTable" id="historyTable">
                         <!-- Table Headings -->
                         <thead>
                             <th>Resource</th>
+                            <th>Inventory Tag</th>
                             <th>Borrowed</th>
                             <th>Returned</th>
                         </thead>
                         <!-- Table Body -->
                         <tbody>
-{{--                             Array: {{ dd($student->transactions()->history()->get())}}
- --}}
-                        @foreach ($history as $transaction)
-                                <tr class="table-row">
-                                    <!-- Equipment Name -->
-                                    <td class="table-text">
-                                        <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }}"></i>
-                                        <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
-                                        <small class="text-muted">{{ $transaction->resource->inventory_tag }}</small>
-                                    </td>
-                                    <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
-                                        @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                        Today, {{ $transaction->created_at->format('g:i a') }}
-                                        @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                        Yesterday, {{ $transaction->created_at->format('g:i a') }}
-                                        @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                        < 7) {{ $transaction->created_at->format('l, g:i a') }}
-                                        @else
-                                        {{ $transaction->created_at->format('M j Y, g:i a') }}
-                                        @endif</td>
-                                        <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->returned_at }}">
-                                            @if ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                            Today, {{ $transaction->returned_at->format('g:i a') }}
-                                            @elseif ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                            Yesterday, {{ $transaction->returned_at->format('g:i a') }}
-                                            @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                            < 7) {{ $transaction->created_at->format('l, g:i a') }}
-                                            @else
-                                            {{ $transaction->returned_at->format('M j Y, g:i a') }}
-                                            @endif</td>
+                            @foreach ($history as $transaction)
+                            <tr class="table-row">
+                                <!-- Equipment Name -->
+                                <td class="table-text">
+                                    <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }}"></i>
+                                    <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                </td>
+                                <td class="table-text">
+                                    <span class="text-muted">{{ $transaction->resource->inventory_tag }}</span>
+                                </td>
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
+                                    @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $transaction->created_at->format('g:i a') }}
+                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $transaction->created_at->format('g:i a') }}
+                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                    @else
+                                    {{ $transaction->created_at->format('M j Y, g:i a') }}
+                                    @endif</td>
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->returned_at }}">
+                                    @if ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $transaction->returned_at->format('g:i a') }}
+                                    @elseif ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $transaction->returned_at->format('g:i a') }}
+                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                    @else
+                                    {{ $transaction->returned_at->format('M j Y, g:i a') }}
+                                    @endif</td>
 {{--
-                                            <td>
-                                                <form action="{{ url('students/' . $student->id . '/transaction/'.$transaction->id) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                                    <button type="submit" id="delete-transaction-{{ $transaction->id }}" class="btn btn-xs btn-muted outline btn-muted-danger">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>--}}
-                                        </tr>@endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-{{--     {!! Form::open(['url' => 'students/' . $student->id . '/borrow']) !!}
-    {!! Form::hidden('student_id', $student->id) !!}
-    {!! Form::select('resource_id', $resources, null, []) !!}
-    {!! Form::submit('Borrow', ['class' => 'btn btn-xs btn-primary']) !!}
-    {!! Form::close() !!}
- --}}
-</div>
-
-
+                                        <td>
+                                            <form action="{{ url('students/' . $student->id . '/transaction/'.$transaction->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                                <button type="submit" id="delete-transaction-{{ $transaction->id }}" class="btn btn-xs btn-muted outline btn-muted-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>--}}
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
     <!-- Modal -->

@@ -36,7 +36,6 @@
 	border-bottom: none;
 }
 
-
 .tab-badge {
 	margin-left: 6px;
 	color: #555;
@@ -45,32 +44,56 @@
 	border: 1px solid #999;
 }
 
-#transactionTable {
+.transactionTable, .historyTable {
 	margin-top: 20px;
+	border-collapse: collapse !important;
 }
 
-#transactionTable thead>tr{
+.transactionTable thead>tr{
 	border: 1px solid #c9e6f2;
 }
 
-.table>thead>tr>th {
-	border-top: 1px solid #c9e6f2;
-	border-bottom: 1px solid #c9e6f2;
-	border-radius: 3px;
+.historyTable thead>tr{
+	border: 1px solid #ddd !important;
 }
 
-#transactionTable tbody>tr{
+.transactionTable.table>thead>tr>th {
+	border-top: 1px solid #c9e6f2;
+	border-bottom: 1px solid #c9e6f2 !important;
+}
+
+.table.dataTable {
+	border-collapse: collapse !important;
+}
+
+table.transactionTable >thead>tr>th {
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.historyTable tbody>tr {
 	border: 1px solid #ddd;
 }
 
-#transactionTable thead {
+.transactionTable tbody>tr {
+	border: 1px solid #ddd;
+}
+
+.transactionTable thead {
 	color: #555;
 	background-color: #f2f9fc;
 }
+
+.historyTable thead {
+	color: #555;
+	background-color: #f5f5f5;
+}
+
 .nav>li>a:hover {
 	background-color: inherit;
 	border-color: transparent;
 }
+
 .resource-metadata {
 	margin-bottom: 12px;
 }
@@ -98,10 +121,6 @@ body {
 	font-size: 14px;
 	font-weight: bold;
 }
-
-.table {
-/*	border: 1px solid #dddddd;
-*/}
 
 .table-row {
 	position:relative;
