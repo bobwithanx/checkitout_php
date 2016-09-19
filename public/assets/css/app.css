@@ -32,6 +32,11 @@
 	padding: 9px 15px;
 }
 
+.nav-tabs>li.active.single-tab>a, .nav-tabs>li.active.single-tab>a:hover {
+	border-color: #e5e5e5 #e5e5e5 transparent;
+	border-width: 1px 1px 1px;
+}
+
 .nav-tabs {
 	border-bottom: none;
 }
@@ -105,7 +110,7 @@ table.transactionTable >thead>tr>th {
 }
 
 body {
-	font-family: 'Lato';
+	font-family: -apple-system, 'Lato';
 	background-color: #fff;
 }
 

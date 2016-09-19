@@ -36,7 +36,11 @@ Route::post('/resources/import', 'ResourceController@import');
 Route::post('/students/{students}/borrow', 'StudentController@borrowItem');
 Route::post('/students/{students}/return', 'StudentController@returnItem');
 
+Route::get('/transactions', 'TransactionController@index');
 Route::delete('/transactions/{transactions}', 'TransactionController@destroy');
 
 Route::get('/admin', 'AdminController@index');
+
+Route::get('autocomplete',array('as'=>'autocomplete','uses'=>'MainController@autocomplete'));
+
 

@@ -2,6 +2,20 @@
 
 @section('content')
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
+<script>
+//once the modal has been shown
+$('#lookupStudentModal').on('shown.bs.modal', function() {
+           //Get the datatable which has previously been initialized
+           var dataTable= $('#studentTable').DataTable();
+            //recalculate the dimensions
+            dataTable.columns.adjust().responsive.recalc();
+
+        });
+</script>
+
+
 <div class="container">
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
@@ -24,13 +38,12 @@
                             <!-- Display Validation Errors -->
                             @include('common.errors')
                         @endif
-
                         {!! Form::open(['url' => '/students/search']) !!}
                             <div class="input-group">
                                 <span class="input-group-btn">
                                 <a href="{{ url('/students/browse') }}" data-toggle="modal" data-target="#lookupStudentModal" class="btn btn-default"><i class="fa fa-search"></i></a>
                                 </span>
-                                {!! Form::text('student_id', null, ['placeholder' => 'Scan or type a STUDENT ID number', 'class'=>'form-control', 'id'=>'student_id', 'autofocus']) !!}
+                                {!! Form::text('student_id', null, ['placeholder' => 'Scan or type a STUDENT ID number', 'class'=>'typeahead form-control', 'id'=>'student_id', 'autofocus', 'autocomplete'=>'off']) !!}
                                 <span class="input-group-btn">
                                     {{Form::button('<i class="fa fa-arrow-right"></i>', array('type' => 'submit', 'class' => 'btn btn-primary'))}}
                                 </span>
@@ -76,6 +89,41 @@
         </div>
     </div>
 </div>
+
+{{-- <script type="text/javascript">
+
+  $(document).ready(function () {
+
+      $('.typeahead').autocomplete({
+        source:'{!!URL::route('autocomplete')!!}',
+        minlength:1,
+        autoFocus:true,
+        select:function(e,ui)
+        {
+          alert(ui);
+      }
+  });
+  });
+</script>
+
+ --}}
+
+
+<script type="text/javascript">
+    var path = "{{ route('autocomplete') }}";
+    $('input.typeahead').typeahead({
+        source:  function (query, process) {
+            return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        },
+        displayText: function(item){ return item.id_number + ' - ' + item.first_name + ' ' + item.last_name;},
+        // displayText: function(item){ return item.id_number;},
+        // afterSelect: function(val) { this.$element.val(""); },
+    });
+
+</script>
+
 
 <!-- Modal -->
 <div class="modal fade" id="lookupStudentModal" tabindex="-1" role="dialog" aria-labelledby="lookupStudentModal" aria-hidden="true">

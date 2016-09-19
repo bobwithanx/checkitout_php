@@ -44,6 +44,24 @@ class MainController extends Controller
         return view('welcome', compact('students'));
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function autocomplete(Request $request)
+    {
+        $data = Student::select("first_name", "last_name", "id_number")
+        ->where("first_name","LIKE","%{$request->input('query')}%")
+        ->orWhere("last_name","LIKE","%{$request->input('query')}%")
+        ->orWhere("id_number","LIKE","%{$request->input('query')}%")
+        ->get();
+
+        return response()->json($data);
+    }
+
+
     /**
      * Show the application dashboard.
      *

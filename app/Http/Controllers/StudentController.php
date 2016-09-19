@@ -26,7 +26,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-      $students =  Student::with('transactions')->get();
+      $students =  Student::with('openTransactionsCount')->get();
 
       return view('students.index', compact('students'));
     }
@@ -92,23 +92,33 @@ class StudentController extends Controller
     public function searchStudent(Request $request)
     {
       $student = Student::findByStudentId($request->student_id);
-
-      return redirect('/students/' . $student->id);
+      if(!empty($student)) {
+        return redirect('/students/' . $student->id);
+      }
+      else {
+        return redirect()->back();
+      }
     }
 
     public function borrowItem($student_id, Request $request)
     {
       $resource = Resource::findByInventoryTag($request->inventory_tag);
 
-      Transaction::create(array(
-        'student_id' => $student_id,
-        'resource_id' => $resource->id
-      ));
+      if(!empty($resource)) {
 
-      $resource->is_available = false;
-      $resource->save();
+        Transaction::create(array(
+          'student_id' => $student_id,
+          'resource_id' => $resource->id
+        ));
 
-      return redirect('/students/' . $student_id);
+        $resource->is_available = false;
+        $resource->save();
+
+        return redirect('/students/' . $student_id);
+      }
+      else {
+        return redirect()->back();
+      }
     }
 
     public function returnItem(Request $request)

@@ -80,7 +80,9 @@ class ResourceController extends Controller
     { 
         $resource = Resource::findOrFail($id);
     
-        return view('resources.show')->with('resource', $resource);
+        $history = $resource->transactions()->with('student')->get();
+
+        return view('resources.show', compact('resource', 'history') );
     }
 
     public function import(Request $request)

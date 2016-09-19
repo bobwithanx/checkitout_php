@@ -151,16 +151,6 @@
                                     @else
                                     {{ $transaction->returned_at->format('M j Y, g:i a') }}
                                     @endif</td>
-{{--
-                                        <td>
-                                            <form action="{{ url('students/' . $student->id . '/transaction/'.$transaction->id) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                                <button type="submit" id="delete-transaction-{{ $transaction->id }}" class="btn btn-xs btn-muted outline btn-muted-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>--}}
                             </tr>
                             @endforeach
                         </tbody>

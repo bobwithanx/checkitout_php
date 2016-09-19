@@ -32,6 +32,7 @@
     <script src="{{ URL::asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/bootbox.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/typeahead.bundle.js') }}"></script>
 {{--     <script src="{{ URL::asset('assets/js/bootstrap-table.min.js') }}"></script>
  --}} 
     @yield('content')

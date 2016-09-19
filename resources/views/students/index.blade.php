@@ -20,6 +20,8 @@ $(document).ready(function(){
 });
 </script>
 
+
+
 <style>
 
     .table
@@ -60,10 +62,10 @@ $(document).ready(function(){
                     <tr>
                         <!-- Equipment Name -->
                         <td class="table-text">
-                            <a href="{{ url('students/'.$student->id) }}">{{ $student->full_name }}</a>
+                            <a href="{{ url('students/'.$student->id) }}">{{ $student->name }}</a>
                         </td>
                         <td class="table-text">{{ $student->id_number }}</td>
-                        <td class="table-text">{{ $student->transactionsCount }}
+                        <td class="table-text">{{ $student->openTransactionsCount }}
                         </td>
                         <!-- Delete Button -->
                             @if (Auth::user()->name == 'Admin')

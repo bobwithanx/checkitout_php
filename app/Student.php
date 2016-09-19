@@ -23,6 +23,10 @@ class Student extends Model
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function getNameAttribute() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     /**
      * Get the tags associated with this user.
      *
@@ -63,5 +67,22 @@ class Student extends Model
         return $this->transactionsCountRelation?$this->transactionsCountRelation->count:0;
     }
 
+    public function openTransactionsCountRelation()
+    {
+        return $this->hasOne('App\Transaction')->current()->selectRaw('id, count(*) as count')->groupBy('id');
+    // replace module_id with appropriate foreign key if needed
+    }
+
+    public function getOpenTransactionsCountAttribute()
+    {
+        return $this->openTransactionsCountRelation?$this->openTransactionsCountRelation->count:0;
+    }
+
+    public function openTransactionsCount()
+    {
+      return $this->open_transactions()
+      ->selectRaw('id, count(*) as aggregate')
+      ->groupBy('id');
+  }
 
 }

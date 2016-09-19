@@ -14,25 +14,41 @@
         // $('div.dataTables_filter input').focus();
     });</script>
 
+    <div class="details-header">
+        <div class="container page-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="sub-header">
+                        <h3>{{ $resource->name }}
+                        </h3>
+                        <div>
+                            <span class="label label-primary" style="margin-right: 10px;">
+                                <i class="fa fa-fw fa-tag"></i> {{ $resource->inventory_tag }}
+                            </span>
+                            <span class="label label-primary" style="margin-right: 10px;">
+                                <i class="fa fa-fw {{ $resource->category->icon }}"></i> {{ $resource->category->name }}
+                            </span>
+                            @if ($resource->serial_number)
+                            <span class="label label-default">
+                                SN: {{ $resource->serial_number }}
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="sub-tabs">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active single-tab"><a href="#current" aria-controls="current" role="tab"><i class="fa fa-fw fa-history"></i>&nbsp;Loan History <span class="badge tab-badge"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="container page-content">
     <div class="row">
-        <div class="col-xs-3">
-            <div class="sub-header">
-                <i class="fa fa-2x text-muted {{ $resource->category->icon }} category"></i>
-                <span class="h3">{{ $resource->name }}</span>
-            </div>
-            <div class="resource-metadata">
-                <div class="text-muted">Inventory Tag</div>
-                <div>{{ $resource->inventory_tag }}</div>
-            </div>
-            <hr>
-<div class="resource-metadata">
-    <div class="text-muted">Serial Number</div>
-    <div>{{ $resource->serial_number }}</div>
-</div>
-         
-</div>
-<div class="col-xs-9">
+        <div class="col-xs-12">
 
     <!-- Bootstrap Boilerplate... -->
 
@@ -45,13 +61,8 @@
  @include('errors.list')
 
     <!-- Current Equipment -->
-    <div class="panel panel-default" style="max-height: 100vmin; overflow-y: scroll;">
-            <div class="panel-heading">
-                Lending History
-            </div>
-
-            <div class="panel-body">
-                <table class="table table-hover table-condensed" id="historyTable">
+<div class="tab-content">
+                <table class="table table-hover table-condensed historyTable" id="historyTable">
 
                     <!-- Table Headings -->
                     <thead>
@@ -65,7 +76,7 @@
 
                     <!-- Table Body -->
                     <tbody>
-                    @foreach ($resource->transactions as $transaction)
+                    @foreach ($history as $transaction)
 
                             <tr>
                                 <!-- Item Name -->
@@ -75,7 +86,7 @@
 
                                 <!-- Delete Button -->
                                 <td>
-                                    <form action="{{ url('resources/'.$resource->id) }}" method="POST">
+                                    <form action="{{ url('transactions/'.$transaction->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
@@ -92,5 +103,8 @@
         </div>
     </div>
 </div>
+
+</div>
+
 
 @endsection
