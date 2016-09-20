@@ -31,6 +31,25 @@ class StudentController extends Controller
       return view('students.index', compact('students'));
     }
 
+    public function autocompleteStudent(Request $request)
+    {
+      $data = Student::select("first_name", "last_name", "id_number")
+      ->where("first_name","LIKE","%{$request->input('query')}%")
+      ->orWhere("last_name","LIKE","%{$request->input('query')}%")
+      ->orWhere("id_number","LIKE","%{$request->input('query')}%")
+      ->get();
+
+      foreach ($data as $query)
+      {
+        $results[] = [ 'data' => $query->id_number, 'value' => $query->first_name.' '.$query->last_name . ' ('.$query->id_number . ')' ];
+      }
+
+      $results_format[] = [ "query" => "Unit", 'suggestions' => $results ];
+
+      return response()->json($results_format[0]);
+    }
+
+
     /**
      * Display a list of all of the user's students.
      *
