@@ -8,17 +8,13 @@
     <title>CheckItOut</title>
 
     <!-- Fonts -->
-    <link href="{{ URL::asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/fonts/lato.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/fonts/font-awesome.css') }}" rel="stylesheet">
 
-{{--     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
- --}}
     <!-- Styles -->
-    <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/css/app.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-{{--     <link href="{{ URL::asset('assets/css/bootstrap-table.min.css') }}" rel="stylesheet">
- --}}    <link href="{{ URL::asset('assets/css/select.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/css/select.dataTables.css') }}" rel="stylesheet">
 
 </head>
 
@@ -33,8 +29,7 @@
     <script src="{{ URL::asset('assets/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/bootbox.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/jquery.autocomplete.js') }}"></script>
-{{--     <script src="{{ URL::asset('assets/js/bootstrap-table.min.js') }}"></script>
- --}} 
+ 
     @yield('content')
 
 </body>

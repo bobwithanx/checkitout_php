@@ -42,5 +42,6 @@ Route::delete('/transactions/{transactions}', 'TransactionController@destroy');
 Route::get('/admin', 'AdminController@index');
 
 Route::get('autocompleteStudent',array('as'=>'autocompleteStudent','uses'=>'StudentController@autocompleteStudent'));
+Route::get('autocompleteResource',array('as'=>'autocompleteResource','uses'=>'ResourceController@autocompleteResource'));
 
 

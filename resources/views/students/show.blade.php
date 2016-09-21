@@ -12,6 +12,13 @@
 .sub-header h1 {
     margin-top: 10px;
 }
+
+
+button#searchButton.btn.btn-default.active {
+    background: green !important;
+    color: #fff;
+}
+
 </style>
 
 <script>$(document).ready(function(){
@@ -22,7 +29,9 @@
         } );
         $('.collapse').collapse("hide");
         // $('div.dataTables_filter input').focus();
-    });</script>
+    });
+
+</script>
 
 <div class="details-header">
     <div class="container page-content">
@@ -54,11 +63,15 @@
                 <div role="tabpanel" class="tab-pane active" id="current">
                     <div class="row">
                         <div class="col-sm-6">
-                            {!! Form::open(['url' => 'students/' . $student->id . '/borrow']) !!}
+                            {!! Form::open(['url' => 'students/' . $student->id . '/borrow', 'id'=>'add_inventory']) !!}
                             <div class="input-group">
-                                {!! Form::text('inventory_tag', null, ['placeholder' => 'Enter INVENTORY TAG', 'class'=>'form-control', 'autofocus']) !!}
+                                <span class="input-group-addon">
+                                <i class="fa fa-tag"></i>
+                                </span>
+                                {!! Form::text('inventory_tag', null, ['placeholder' => 'Enter INVENTORY TAG', 'id'=>'inventory_tag', 'class'=>'form-control typeahead', 'autofocus', 'autocomplete'=>'off']) !!}
                                 <span class="input-group-btn">
-                                    {{Form::button('<i class="fa fa-arrow-right"></i>', array('type' => 'submit', 'class' => 'btn btn-success'))}}</span>
+                                    {{Form::button('<i class="fa fa-arrow-right"></i>', array('type' => 'submit', 'class' => 'btn btn-success', 'id'=>'goButton'))}}
+                                </span>
                             </div><!-- /input-group -->
                             {!! Form::close() !!}
                         </div>
@@ -160,6 +173,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('input.typeahead').autocomplete({
+        serviceUrl: '{{ route('autocompleteResource') }}',
+        onSelect: function (suggestion) {
+            $("#inventory_tag").val(suggestion.data);
+        },
+    })
+</script>
 
     <!-- Modal -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

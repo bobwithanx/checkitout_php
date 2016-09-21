@@ -33,6 +33,30 @@ class ResourceController extends Controller
         return view('resources.index', compact('resources', 'categories', 'filter'));
     }
     
+    public function autocompleteResource(Request $request)
+    {
+      $data = Resource::select("resources.name as resources_name", "inventory_tag", "serial_number", "categories.name", "categories.icon")
+      ->join('categories', 'resources.category_id', '=', 'categories.id')
+      ->where("is_available","=",1)
+      ->where("resources.name","LIKE","%{$request->input('query')}%")
+      ->orWhere("inventory_tag","LIKE","%{$request->input('query')}%")
+      ->orWhere("serial_number","LIKE","%{$request->input('query')}%")
+      ->orWhere("categories.name","LIKE","%{$request->input('query')}%")
+      ->get();
+
+      foreach ($data as $query)
+      {
+        $results[] = [ 'data' => $query->inventory_tag, 'value' => $query->resources_name .' ('.$query->inventory_tag . ')' ];
+      }
+
+      $results_format[] = [ "query" => "Unit", 'suggestions' => $results ];
+
+      return response()->json($results_format[0]);
+    }
+
+
+
+
     public function store(Request $request)
     {
         $this->validate($request, [
