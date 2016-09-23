@@ -36,8 +36,8 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();
       }
-      return redirect('/transactions');
-    }
+      return redirect()->back();
+  }
 
 
 }

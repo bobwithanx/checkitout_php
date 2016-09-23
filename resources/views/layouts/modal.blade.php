@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Equipment Checkout</title>
+    <title>CheckItOut</title>
 
     <!-- Fonts -->
     <link href="{{ URL::asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/fonts/lato.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">

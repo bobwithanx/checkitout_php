@@ -9,6 +9,10 @@
         "lengthChange": false,
         "filter": false,
         "order": [[ 2, 'desc' ]],
+        "language": {
+            "infoEmpty":    "",
+            "emptyTable":   "No one has borrowed this item.",
+        },
     } );
     $('.collapse').collapse("hide");
         // $('div.dataTables_filter input').focus();
@@ -25,7 +29,7 @@
                             <span class="label label-primary" style="margin-right: 10px;">
                                 <i class="fa fa-fw fa-tag"></i> {{ $resource->inventory_tag }}
                             </span>
-                            <span class="label label-primary" style="margin-right: 10px;">
+                            <span class="label label-default" style="margin-right: 10px;">
                                 <i class="fa fa-fw {{ $resource->category->icon }}"></i> {{ $resource->category->name }}
                             </span>
                             @if ($resource->serial_number)
@@ -62,7 +66,7 @@
 
     <!-- Current Equipment -->
 <div class="tab-content">
-                <table class="table table-hover table-condensed historyTable" id="historyTable">
+                <table class="table table-condensed historyTable" id="historyTable">
 
                     <!-- Table Headings -->
                     <thead>

@@ -51,11 +51,7 @@
 @include('errors.list')
 
   <div class="row">
-    <div class="col-sm-2">
-      @include('layouts.navigation-db')
-    </div>
-
-    <div class="col-sm-10">
+    <div class="col-sm-12">
 
     <!-- Bootstrap Boilerplate... -->
 

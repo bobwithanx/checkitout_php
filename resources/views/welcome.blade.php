@@ -2,21 +2,9 @@
 
 @section('content')
 
-<script>
-//once the modal has been shown
-$('#lookupStudentModal').on('shown.bs.modal', function() {
-           //Get the datatable which has previously been initialized
-           var dataTable= $('#studentTable').DataTable();
-            //recalculate the dimensions
-            dataTable.columns.adjust().responsive.recalc();
-
-        });
-</script>
-
 <div class="container">
     <div class="row">
-        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
-            <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
             @if (Auth::guest())
                 <div class="panel panel-default">
                     <div class="panel-heading">Dashboard</div>
@@ -25,35 +13,36 @@ $('#lookupStudentModal').on('shown.bs.modal', function() {
                     </div>
                 </div>
             @else
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        Check Out Equipment
-                    </div>
-
-                    <div class="panel-body">
-                        @if ($errors->count())
-                            <!-- Display Validation Errors -->
-                            @include('common.errors')
-                        @endif
-                        {!! Form::open(['url' => '/students/search']) !!}
-                            <div class="input-group" id="student_lookup">
+                <div class="panel panel-info  welcome-panel">
+                    <div class="panel-heading panel-well">
+                        <h2 class="text-center">Equipment Check Out</h2>
+                        {!! Form::open(['url' => '/students/search', 'id'=>'student_lookup']) !!}
+                            <div class="input-group" id="lookup_fields">
                             <span class="input-group-addon" id="basic-addon1">
                                   <i class="fa fa-user"></i>
                                 </span>
-                                {!! Form::text('student_id', null, ['placeholder' => 'Enter a STUDENT ID number', 'class'=>'form-control typeahead', 'id'=>'student_id', 'autofocus', 'autocomplete'=>'off']) !!}
+                                {!! Form::text('student_id', null, ['placeholder' => 'Search for name or Student ID', 'class'=>'form-control typeahead', 'id'=>'student_id', 'autofocus', 'autocomplete'=>'off']) !!}
                                 <span class="input-group-btn">
-                                    {{Form::button('<i class="fa fa-search"></i>', array('type' => 'submit', 'class' => 'btn btn-primary'))}}
+                                    {{Form::button('<i class="fa fa-arrow-right"></i>', array('type' => 'submit', 'class' => 'btn btn-primary'))}}
                                 </span>
                                 </div><!-- /input-group -->
                         {!! Form::close() !!}
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                @if ($errors->count())
+                <!-- Display Validation Errors -->
+                @include('common.errors')
+                @endif
+
+                </div>
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                    @if ($students->count())
+                    <div class="panel panel-default">
                     <div class="panel-heading">
                         Current Loans
                     </div>
-                    <table class="table table-hover" id="transactionTable">
+                    <table class="table" id="currentTable">
                         <!-- Table Body -->
                         <tbody>
                             @foreach ( $students as $student )
@@ -66,13 +55,13 @@ $('#lookupStudentModal').on('shown.bs.modal', function() {
                                     {{ $student->id_number }}
                                 </td>
                                 <td>
-                                    {{ $student->open_transactions()->count() }} {{ str_plural('item', $student->open_transactions()->count()) }}
+                                    <span class="badge">{{ $student->open_transactions()->count() }} {{ str_plural('item', $student->open_transactions()->count()) }}</span>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                    @endif
                 @if (Auth::user()->name == 'Admin')
                     <div class="panel panel-default">
                         <div class="panel-heading">Dashboard</div>
@@ -82,6 +71,8 @@ $('#lookupStudentModal').on('shown.bs.modal', function() {
                     </div>
                 </div>
                 @endif
+            </div>
+
             @endif
         </div>
     </div>

@@ -21,11 +21,25 @@ button#searchButton.btn.btn-default.active {
 
 </style>
 
-<script>$(document).ready(function(){
+<script>
+    $(document).ready(function(){
         $('#historyTable').DataTable({
             "lengthChange": false,
-            "filter": false,
-            "bSort": false,
+            "filter":       false,
+            "bSort":        false,
+            "language": {
+                "infoEmpty":    "",
+                "emptyTable":   "No items have been borrowed.",
+            },
+        } );
+        $('#currentTable').DataTable({
+            "lengthChange": false,
+            "filter":       false,
+            "bSort":        false,
+            "language": {
+                "infoEmpty":    "",
+                "emptyTable":   "No items are on loan.",
+            },
         } );
         $('.collapse').collapse("hide");
         // $('div.dataTables_filter input').focus();
@@ -38,17 +52,20 @@ button#searchButton.btn.btn-default.active {
         <div class="row">
             <div class="col-xs-12">
                 <div class="sub-header">
-                    <h3>{{ $student->full_name }}
-                        <span class="small text-muted">{{ $student->id_number }}</span>
-                    </h3>
+                    <div><span class="h3">{{ $student->full_name }}</span>
+                        <span class="label label-default label-student-id"><i class="fa fa-tag"></i> {{ $student->id_number }}
+                        </span>
+
+{{--                         <span class="small text-muted">{{ $student->id_number }}</span>
+ --}}                    </div>
                 </div>
 
                 <div class="sub-tabs">
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab"><i class="fa fa-fw fa-briefcase"></i>&nbsp;Current <span class="badge tab-badge">{{$current_loans->count()}}</span></a></li>
-                        <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-fw fa-history"></i> History</a></li>
+                        <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab"><i class="fa fa-briefcase"></i>&nbsp;Current</a></li>
+                        <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> History</a></li>
                     </ul>
                 </div>
             </div>
@@ -76,8 +93,7 @@ button#searchButton.btn.btn-default.active {
                             {!! Form::close() !!}
                         </div>
                     </div>
-                    <table class="table transactionTable" id="transactionTable">
-                        @if ( $current_loans->count() )
+                    <table class="table currentTable" id="currentTable">
                         <thead>
                             <th>Item</th>
                             <th>Inventory Tag</th>
@@ -114,11 +130,6 @@ button#searchButton.btn.btn-default.active {
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                            <thead>
-                                <td span=4 class="text-center">No items are currently on loan.</td>
-                            </thead>
-                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -131,6 +142,9 @@ button#searchButton.btn.btn-default.active {
                             <th>Inventory Tag</th>
                             <th>Borrowed</th>
                             <th>Returned</th>
+                            @if (Auth::user()->name == 'Admin')
+                                <th>Actions</th>
+                            @endif
                         </thead>
                         <!-- Table Body -->
                         <tbody>
@@ -163,7 +177,19 @@ button#searchButton.btn.btn-default.active {
                                     < 7) {{ $transaction->created_at->format('l, g:i a') }}
                                     @else
                                     {{ $transaction->returned_at->format('M j Y, g:i a') }}
-                                    @endif</td>
+                                    @endif
+                                </td>
+                                @if (Auth::user()->name == 'Admin')
+                                    <td>
+                                        <form action="{{ url('transactions/'.$transaction->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="submit" class="btn btn-xs btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -197,9 +223,6 @@ button#searchButton.btn.btn-default.active {
                 </div>
                 <!-- Edit Student Form -->
                 <div class="modal-body">{{ Form::model($student, array('route' => array('students.update', $student->id), 'method' => 'PATCH')) }}
-
-{{--      {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id, 'class' => 'form-horizontal']) }}
- --}}
                     <!-- Modal Body -->
                     <div class="form-group">{!! Form::label('first_name', 'First Name *', ['class'=>'control-label']) !!}
             {!! Form::text('first_name', $student->first_name, ['class'=>'form-control']) !!}</div>
@@ -210,22 +233,6 @@ button#searchButton.btn.btn-default.active {
                     <div class="form-group">{!! Form::checkbox('is_active', 1, $student->is_active ) !!}
             {!! Form::label('is_active', 'Active?') !!}</div>
 
-
-{{--
-                    <div class="form-group">
-                        <label for="group_id">Group</label>
-                        <select class="form-control" name="group_id" id="group_id">
-                            <option value="" selected></option>@foreach ($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->name}}</option>@endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="grade_level_id">Grade Level</label>
-                        <select class="form-control" name="grade_level_id" id="grade_level_id">
-                            <option value="" selected></option>@foreach ($grade_levels as $grade_level)
-                            <option value="{{ $grade_level->id }}">{{ $grade_level->name}}</option>@endforeach
-                        </select>
-                    </div>--}}
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">

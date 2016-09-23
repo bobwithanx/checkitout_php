@@ -40,7 +40,6 @@ class ResourceController extends Controller
       ->where("is_available","=",1)
       ->where("resources.name","LIKE","%{$request->input('query')}%")
       ->orWhere("inventory_tag","LIKE","%{$request->input('query')}%")
-      ->orWhere("serial_number","LIKE","%{$request->input('query')}%")
       ->orWhere("categories.name","LIKE","%{$request->input('query')}%")
       ->get();
 

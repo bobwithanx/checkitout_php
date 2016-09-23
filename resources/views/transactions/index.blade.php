@@ -28,14 +28,10 @@ $(document).ready(function(){
 
 <div class="container page-content">
   <div class="row">
-  <div class="col-sm-2">
-        @include('layouts.navigation-db')
-    </div>
-
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-            <span class="fa fa-fw fa-users"></span> Transactions
+            <span class="fa fa-fw fa-exchange"></span> Transactions
     </div>
     <div class="panel-body">
 
@@ -62,8 +58,8 @@ $(document).ready(function(){
                         <td>
                         {!! Form::open(['method' => 'DELETE', 'action' => ['TransactionController@destroy', $transaction->id], 'id'=>'delete-transaction-'.$transaction->id.'-form', 'style'=>'display:inline;']) !!}
 
-                            <a href="#" class="confirm-box btn btn-danger btn-xs" id="delete-transaction-{{ $transaction->id }}"><i class="fa fa-trash"></i></a>
-                            {{ Form::close() }}
+                        <button type="submit" class=" btn btn-danger btn-xs" id="delete-transaction-{{ $transaction->id }}"><i class="fa fa-trash"></i></a>
+                        {{ Form::close() }}
                         </td>
                         @endif
                     </tr>

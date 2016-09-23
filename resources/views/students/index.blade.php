@@ -32,11 +32,7 @@ $(document).ready(function(){
 
 <div class="container page-content">
   <div class="row">
-  <div class="col-sm-2">
-        @include('layouts.navigation-db')
-    </div>
-
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <div class="panel panel-default">
         <div class="panel-heading">
             <span class="fa fa-fw fa-users"></span> Students
