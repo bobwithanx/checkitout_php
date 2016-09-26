@@ -62,6 +62,8 @@
                         </tbody>
                     </table>
                     @endif
+                </div>
+
                 @if (Auth::user()->name == 'Admin')
                     <div class="panel panel-default">
                         <div class="panel-heading">Dashboard</div>
@@ -69,7 +71,6 @@
                             <a href="{{ url('/admin') }}">Setup</a>
                         </div>
                     </div>
-                </div>
                 @endif
             </div>
 
