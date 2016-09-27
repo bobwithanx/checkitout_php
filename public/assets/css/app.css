@@ -1,32 +1,32 @@
-.autocomplete-suggestions { 
+.autocomplete-suggestions {
 	border: 1px solid #999;
 	background: #FFF;
-	overflow: auto; 
+	overflow: auto;
 }
 
-.autocomplete-suggestion { 
+.autocomplete-suggestion {
 	padding: 5px 8px;
 	white-space: nowrap;
-	overflow: hidden; 
+	overflow: hidden;
 	font-weight: 500;
 }
 
-.autocomplete-selected { 
+.autocomplete-selected {
 	background: #eee;
 }
 
-.autocomplete-suggestions strong { 
+.autocomplete-suggestions strong {
 	font-weight: 900;
 	color: #5fb760;
 }
 
-.autocomplete-group { 
-	padding: 2px 5px; 
+.autocomplete-group {
+	padding: 2px 5px;
 }
 
-.autocomplete-group strong { 
+.autocomplete-group strong {
 	display: block;
-	border-bottom: 1px solid #000; 
+	border-bottom: 1px solid #000;
 }
 
 .container {
@@ -37,13 +37,21 @@
 	margin-top: 20px;
 	border-color: #377bb5;
 }
+.loan-panel {
+	margin-top: 20px;
+	border-color: #3e753f;
+}
+
+.loan-panel h4 {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
 .panel-well {
 	padding: 10px 40px 40px 40px;
 }
 
 .panel-well .input-group .form-control {
 	font-size: 18px !important;
-
 	font-weight: 500;
 }
 
@@ -170,7 +178,7 @@ table.currentTable >thead>tr>th {
 
 .resource-head {
 /*	background-color: #fafafa;
-*/	
+*/
 	padding-bottom: 20px;
 }
 

@@ -36,32 +36,28 @@
                 @endif
 
                 </div>
+
+                @if ($students->count())
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    @if ($students->count())
-                    <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Current Loans
+                    <div class="panel panel-success loan-panel">
+                        <div class="panel-heading">
+                        <div class="panel-title">
+                        <h4 class="text-center">Current Loans</h4>
+                        </div>
                     </div>
-                    <table class="table" id="currentTable">
-                        <!-- Table Body -->
-                        <tbody>
+                    <div class="list-group" >
                             @foreach ( $students as $student )
-                            <tr class="table-row">
+                            <a href="{{ url('students/' . $student->id) }}" class="list-group-item" >
                                 <!-- Equipment Name -->
-                                <td class="table-text">
-                                    <a href="{{ url('students/' . $student->id) }}">{{ $student->full_name }}</a>
-                                </td>
-                                <td class="table-text text-muted">
-                                    {{ $student->id_number }}
-                                </td>
-                                <td>
-                                    <span class="badge">{{ $student->open_transactions()->count() }} {{ str_plural('item', $student->open_transactions()->count()) }}</span>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    @endif
+                                {{ $student->full_name }}
+                            <span class="small text-muted">
+                                {{ $student->id_number }}
+                            </span>
+                                <span class="badge pull-right">{{ $student->open_transactions()->count() }} {{ str_plural('item', $student->open_transactions()->count()) }}</span>
+                    </a>
+                    @endforeach
+                </div>
+                 @endif
                 </div>
 
                 @if (Auth::user()->name == 'Admin')
