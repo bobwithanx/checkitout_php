@@ -30,9 +30,9 @@ class ResourceController extends Controller
         $categories = Category::pluck('name', 'id');
         $filter = $request->filter;
 
-        return view('resources.index', compact('resources', 'categories', 'filter'));
+        return view('admin.resources.index', compact('resources', 'categories', 'filter'));
     }
-    
+
     public function autocompleteResource(Request $request)
     {
       $data = Resource::select("resources.name as resources_name", "inventory_tag", "serial_number", "categories.name", "categories.icon")
@@ -64,7 +64,7 @@ class ResourceController extends Controller
             'inventory_tag' => 'required|max:255',
             'serial_number' => 'max:255',
         ]);
-        
+
         Resource::create(array(
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -72,7 +72,7 @@ class ResourceController extends Controller
             'serial_number' => $request->serial_number,
         ));
 
-        return redirect('/resources');
+        return redirect('/admin/resources');
     }
 
     public function destroy(Resource $resources)
@@ -80,7 +80,7 @@ class ResourceController extends Controller
         $this->authorize('destroy', $resources);
         $resources->delete();
 
-        return redirect('/resources');
+        return redirect('/admin/resources');
     }
 
     public function edit($id)
@@ -88,24 +88,33 @@ class ResourceController extends Controller
       $resource = Resource::findOrFail($id);
       $categories = Category::all()->sortBy('name')->lists('name', 'id');
 
-      return view('resources.edit', compact('resource', 'categories'));
+      return view('admin.resources.edit', compact('resource', 'categories'));
     }
 
     public function update($id, ResourceRequest $request)
     {
       $resource = Resource::findOrFail($id);
       $resource->update($request->all());
-      
-      return redirect('resources');
+
+      return redirect('/admin/resources');
     }
 
     public function show($id)
-    { 
-        $resource = Resource::findOrFail($id);
-    
-        $history = $resource->transactions()->with('student')->get();
+    {
+      $resource = Resource::findOrFail($id);
 
-        return view('resources.show', compact('resource', 'history') );
+      $history = $resource->transactions()->with('student')->get();
+
+      return view('admin.resources.show', compact('resource', 'history') );
+    }
+
+    public function showProfile($id)
+    {
+      $resource = Resource::findOrFail($id);
+
+      $history = $resource->transactions()->with('student')->get();
+
+      return view('resources.show', compact('resource', 'history') );
     }
 
     public function import(Request $request)
@@ -130,6 +139,6 @@ class ResourceController extends Controller
         fclose($handle);
       }
 
-      return redirect('/resources');
+      return redirect('/admin/resources');
     }
 }

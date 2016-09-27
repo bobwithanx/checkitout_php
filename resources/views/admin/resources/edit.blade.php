@@ -15,7 +15,7 @@
     <div class="modal-body">
         {!! Form::model($resource, ['method' => 'PATCH', 'action' => ['ResourceController@update', $resource->id]]) !!}
 
-        @include('resources._form')
+        @include('admin.resources._form')
 
     </div>
     <div class="modal-footer">

@@ -58,7 +58,7 @@ $(document).ready(function(){
                     <tr>
                         <!-- Equipment Name -->
                         <td class="table-text">
-                            <a href="{{ url('students/'.$student->id) }}">{{ $student->name }}</a>
+                            <a href="{{ url('/admin/students/'.$student->id) }}">{{ $student->name }}</a>
                         </td>
                         <td class="table-text">{{ $student->id_number }}</td>
                         <td class="table-text">{{ $student->openTransactionsCount }}
@@ -66,7 +66,7 @@ $(document).ready(function(){
                         <!-- Delete Button -->
                             @if (Auth::user()->name == 'Admin')
                             <td>
-                            <a href="{{route('students.edit', $student->id)}}" data-toggle="modal" data-target="#addStudentModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+                            <a href="{{route('admin.students.edit', $student->id)}}" data-toggle="modal" data-target="#addStudentModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                 {!! Form::open(['method' => 'DELETE', 'action' => ['StudentController@destroy', $student->id], 'id'=>'delete-student-'.$student->id.'-form', 'style'=>'display:inline;']) !!}
 
                                 <a href="#" class="confirm-box btn btn-danger btn-xs" id="delete-student-{{ $student->id }}"><i class="fa fa-trash"></i></a>
@@ -94,10 +94,10 @@ $(document).ready(function(){
                 <h4 class="modal-title" id="myModalLabel">Add Student</h4>
             </div>
 
-            {!! Form::open(['url' => 'students']) !!}
+            {!! Form::open(['url' => 'admin/students']) !!}
 
             <div class="modal-body">
-                @include('students._form')
+                @include('admin.students._form')
             </div>
 
             <!-- Modal Footer -->
@@ -122,9 +122,9 @@ $(document).ready(function(){
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Import Students</h4>
             </div>
-            
+
             <!-- New Student Form -->
-            {!! Form::open(['url' => '/students/import', 'files' => true]) !!}
+            {!! Form::open(['url' => '/admin/students/import', 'files' => true]) !!}
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <p>Upload a text file with a list of the students (one per line) that you would like to import, using the following format:</p>
@@ -138,7 +138,7 @@ $(document).ready(function(){
                         {!! Form::file('csv', null) !!}
                     </div>
                 </div>
-                                                
+
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -15,7 +15,7 @@
 <div class="modal-body">
     {!! Form::model($category, ['method' => 'PATCH', 'action' => ['CategoryController@update', $category->id]]) !!}
 
-    @include('categories._form')
+    @include('admin.categories._form')
 
 </div>
 <div class="modal-footer">

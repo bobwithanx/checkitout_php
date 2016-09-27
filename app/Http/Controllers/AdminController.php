@@ -35,6 +35,6 @@ class AdminController extends Controller
         $resource_count = Resource::all()->count();
         $category_count = Category::all()->count();
 
-        return view('admin', compact('students', 'resources', 'categories', 'student_count', 'resource_count', 'category_count'));
+        return view('admin.admin', compact('students', 'resources', 'categories', 'student_count', 'resource_count', 'category_count'));
     }
 }

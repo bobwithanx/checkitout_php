@@ -74,20 +74,30 @@
                           <th>Person</th>
                           <th>Checked Out</th>
                           <th>Returned</th>
+                          <th>Actions</th>
                         </tr>
                     </thead>
 
                     <!-- Table Body -->
                     <tbody>
                     @foreach ($history as $transaction)
-
                             <tr>
                                 <!-- Item Name -->
-                                <td class="table-text"><a href="{{ url('students/'.$transaction->student->id)}}">{{ $transaction->student->full_name }}</a> <small class="text-muted">{{ $transaction->student->id_number }}</small></td>
+                                <td class="table-text"><a href="{{ url('/admin/students/'.$transaction->student->id)}}">{{ $transaction->student->full_name }}</a> <small class="text-muted">{{ $transaction->student->id_number }}</small></td>
                                 <td class="table-text">{{ $transaction->created_at }}</td>
                                 <td class="table-text">{{ $transaction->returned_at }}</td>
 
                                 <!-- Delete Button -->
+                                <td>
+                                    <form action="{{ url('/admin/transactions/'.$transaction->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+
+                                        <button type="submit" class="btn btn-xs btn-danger">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

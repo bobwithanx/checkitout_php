@@ -30,7 +30,7 @@
 
 .table
 { border-left: none;
-border-right: none; 
+border-right: none;
 border-top: none;}
 
 /*.dataTables_wrapper .dataTables_filter {
@@ -89,7 +89,7 @@ border-top: none;}
                             <tr class="table-row">
                           @endif
                           <!-- Item Name -->
-                          <td class="table-text"><a href="{{ url('resources/'.$resource->id) }}"><i class="fa fa-fw {{ $resource->category->icon }}"></i> {{ $resource->name }}</a>
+                          <td class="table-text"><a href="{{ url('/admin/resources/'.$resource->id) }}"><i class="fa fa-fw {{ $resource->category->icon }}"></i> {{ $resource->name }}</a>
                                 </td>
                                 <td class="table-text">{{ $resource->inventory_tag }}</td>
                                 <td class="table-text hidden-xs hidden-sm hidden-md">{{ $resource->serial_number }}</td>
@@ -101,14 +101,12 @@ border-top: none;}
                                   <span class="label label-default">On Loan</span>
                                 @endif
                                 </td>
-                                @if (Auth::user()->name == 'Admin')
                                 <td>
-                                 <a href="{{route('resources.edit', $resource->id)}}" data-toggle="modal" data-target="#addResourceModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+                                 <a href="{{route('admin.resources.edit', $resource->id)}}" data-toggle="modal" data-target="#addResourceModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                  {!! Form::open(['method' => 'DELETE', 'action' => ['ResourceController@destroy', $resource->id], 'id'=>'delete-resource-'.$resource->id.'-form', 'style'=>'display:inline;']) !!}
                                  <a href="#" class="confirm-box btn btn-danger btn-xs" id="delete-resource-{{ $resource->id }}"><i class="fa fa-trash"></i></a>
                                  {{ Form::close() }}
                                 </td>
-                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -120,7 +118,7 @@ border-top: none;}
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="addResourceModal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="addResourceModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -132,11 +130,11 @@ border-top: none;}
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Add Resource</h4>
             </div>
-            
-            {!! Form::open(['url' => 'resources']) !!}
+
+            {!! Form::open(['url' => 'admin.resources']) !!}
 
             <div class="modal-body">
-              @include('resources._form')
+              @include('admin.resources._form')
             </div>
 
             <!-- Modal Footer -->
@@ -162,7 +160,7 @@ border-top: none;}
         <h4 class="modal-title" id="myModalLabel">Import Equipment</h4>
       </div>
 
-      {!! Form::open(['url' => '/resources/import', 'files' => true]) !!}
+      {!! Form::open(['url' => '/admin/resources/import', 'files' => true]) !!}
       <!-- Modal Body -->
       <div class="modal-body">
         <p>Upload a text file with a list of the equipment (one per line) that you would like to import, using the following format:</p>

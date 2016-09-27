@@ -15,7 +15,7 @@
 	<div class="modal-body">
 	    {!! Form::model($student, ['method' => 'PATCH', 'action' => ['StudentController@update', $student->id]]) !!}
 
-	    @include('students._form')
+	    @include('admin.students._form')
 
 	</div>
 	<div class="modal-footer">

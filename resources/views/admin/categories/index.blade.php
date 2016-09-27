@@ -87,11 +87,11 @@
                                 <!-- Item Name -->
                                 <td class="table-text">{{ $category->name }}</td>
                                 <td class="table-text"><i class="fa fa-fw {{ $category->icon }}"></i>&nbsp;&nbsp;<span class="text-muted">{{ $category->icon }}</span></td>
-                                <td class="table-text text-muted">{{ $category->resources()->count() }} <a href="{{ url('resources?filter='. urlencode($category->name))}}"><i class="fa fa-arrow-circle-right"></i></a></td>
+                                <td class="table-text text-muted">{{ $category->resources()->count() }} <a href="{{ url('/admin/resources?filter='. urlencode($category->name))}}"><i class="fa fa-arrow-circle-right"></i></a></td>
 
                                 <!-- Delete Button -->
                                 <td>
-                                <a href="{{route('categories.edit',$category->id)}}" data-toggle="modal" data-target="#addCategoryModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+                                <a href="{{route('admin.categories.edit',$category->id)}}" data-toggle="modal" data-target="#addCategoryModal" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
 
 {!! Form::open(['method' => 'DELETE', 'action' => ['CategoryController@destroy', $category->id], 'id'=>'delete-category-'.$category->id.'-form', 'style'=>'display:inline;']) !!}
 
@@ -110,13 +110,13 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <button type="button" class="close" 
+                <button type="button" class="close"
                    data-dismiss="modal">
                        <span aria-hidden="true">&times;</span>
                        <span class="sr-only">Close</span>
@@ -125,11 +125,11 @@
                     Add Category
                 </h4>
             </div>
-            
+
             {!! Form::open(['url' => 'categories']) !!}
 
             <div class="modal-body">
-                @include('categories._form')
+                @include('admin.categories._form')
             </div>
 
                 <div class="modal-footer">

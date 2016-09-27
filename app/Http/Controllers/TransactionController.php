@@ -28,7 +28,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('student', 'resource')->get();
 
-        return view('transactions.index', compact('transactions'));
+        return view('admin.transactions.index', compact('transactions'));
     }
 
     public function destroy($id){

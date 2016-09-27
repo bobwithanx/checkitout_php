@@ -17,21 +17,21 @@ class CategoryController extends Controller
 	{
 		$categories = Category::all()->sortBy('name');
 
-		return view('categories.index', compact('categories'));
+		return view('admin.categories.index', compact('categories'));
 	}
 
 	public function edit($id)
 	{
 		$category = Category::findOrFail($id);
 
-		return view('categories.edit', compact('category'));
+		return view('admin.categories.edit', compact('category'));
 	}
 
 	public function store(CategoryRequest $request)
 	{
 		Category::create($request->all());
 
-		return redirect('categories');
+		return redirect('/admin/categories');
 	}
 
 	public function update($id, CategoryRequest $request)
@@ -40,7 +40,7 @@ class CategoryController extends Controller
 
 		$category->update($request->all());
 
-		return redirect('categories');
+		return redirect('/admin/categories');
 	}
 
 	public function destroy(Category $categories)
@@ -50,7 +50,7 @@ class CategoryController extends Controller
 			$categories->delete();
 		}
 
-		return redirect('/categories');
+		return redirect('/admin/categories');
 	}
 
 }

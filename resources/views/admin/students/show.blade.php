@@ -80,7 +80,7 @@ button#searchButton.btn.btn-default.active {
                 <div role="tabpanel" class="tab-pane active" id="current">
                     <div class="row">
                         <div class="col-sm-6">
-                            {!! Form::open(['url' => 'students/' . $student->id . '/borrow', 'id'=>'add_inventory']) !!}
+                            {!! Form::open(['url' => '/students/' . $student->id . '/borrow', 'id'=>'add_inventory']) !!}
                             <div class="input-group">
                                 <span class="input-group-addon">
                                 <i class="fa fa-tag"></i>
@@ -106,7 +106,7 @@ button#searchButton.btn.btn-default.active {
                                 <!-- Equipment Name -->
                                 <td class="table-text">
                                     <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
-                                    <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                    <a href="{{ url('/admin/resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
                                 </td>
                                 <td class="table-text">
                                     <span class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</span>
@@ -123,7 +123,7 @@ button#searchButton.btn.btn-default.active {
                                     @endif</td>
 
                                     <td>
-                                        {{ Form::open(['method' => 'POST', 'url' => 'students/' . $student->id . '/return']) }}
+                                        {{ Form::open(['method' => 'POST', 'url' => '/admin/students/' . $student->id . '/return']) }}
                                         {{ Form::hidden('transaction_id', $transaction->id)}}
                                     {{ Form::button('<i class="fa fa-calendar-check-o"></i> Check In ', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
                                     {{ Form::close() }}
@@ -142,9 +142,7 @@ button#searchButton.btn.btn-default.active {
                             <th>Inventory Tag</th>
                             <th>Borrowed</th>
                             <th>Returned</th>
-                            @if (Auth::user()->name == 'Admin')
                                 <th>Actions</th>
-                            @endif
                         </thead>
                         <!-- Table Body -->
                         <tbody>
@@ -153,7 +151,7 @@ button#searchButton.btn.btn-default.active {
                                 <!-- Equipment Name -->
                                 <td class="table-text">
                                     <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }}"></i>
-                                    <a href="{{ url('resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                    <a href="{{ url('/admin/resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
                                 </td>
                                 <td class="table-text">
                                     <span class="text-muted">{{ $transaction->resource->inventory_tag }}</span>
@@ -179,9 +177,8 @@ button#searchButton.btn.btn-default.active {
                                     {{ $transaction->returned_at->format('M j Y, g:i a') }}
                                     @endif
                                 </td>
-                                @if (Auth::user()->name == 'Admin')
                                     <td>
-                                        <form action="{{ url('transactions/'.$transaction->id) }}" method="POST">
+                                        <form action="{{ url('/admin/transactions/'.$transaction->id) }}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="submit" class="btn btn-xs btn-danger">
@@ -189,7 +186,6 @@ button#searchButton.btn.btn-default.active {
                                             </button>
                                         </form>
                                     </td>
-                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -208,5 +204,39 @@ button#searchButton.btn.btn-default.active {
         },
     })
 </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
+                </div>
+                <!-- Edit Student Form -->
+                <div class="modal-body">{{ Form::model($student, array('route' => array('admin.students.update', $student->id), 'method' => 'PATCH')) }}
+                    <!-- Modal Body -->
+                    <div class="form-group">{!! Form::label('first_name', 'First Name *', ['class'=>'control-label']) !!}
+            {!! Form::text('first_name', $student->first_name, ['class'=>'form-control']) !!}</div>
+                    <div class="form-group">{!! Form::label('last_name', 'Last Name *') !!}
+            {!! Form::text('last_name', $student->last_name, ['class'=>'form-control']) !!}</div>
+                    <div class="form-group">{!! Form::label('id_number', 'ID Number *') !!}
+            {!! Form::text('id_number', $student->id_number, ['class'=>'form-control']) !!}</div>
+                    <div class="form-group">{!! Form::checkbox('is_active', 1, $student->is_active ) !!}
+            {!! Form::label('is_active', 'Active?') !!}</div>
+
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>{{ Form::close() }}
+            </div>
+        </div>
+    </div>
 
 @endsection

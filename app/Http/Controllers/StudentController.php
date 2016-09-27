@@ -28,7 +28,7 @@ class StudentController extends Controller
     {
       $students =  Student::with('openTransactionsCount')->get();
 
-      return view('students.index', compact('students'));
+      return view('admin.students.index', compact('students'));
     }
 
     public function autocompleteStudent(Request $request)
@@ -60,7 +60,7 @@ class StudentController extends Controller
     {
       $students =  Student::all();
 
-      return view('students.browse', compact('students'));
+      return view('admin.students.browse', compact('students'));
     }
 
     public function store(StudentRequest $request)
@@ -74,7 +74,7 @@ class StudentController extends Controller
     {
       $student = Student::findOrFail($id);
 
-      return view('students.edit', compact('student'));
+      return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -99,7 +99,7 @@ class StudentController extends Controller
       //   ->withInput(Input::except('password'));
       // } else {
             // store
-      
+
         $student = Student::findOrFail($id);
         $student->update($request->all());
 
@@ -184,6 +184,22 @@ class StudentController extends Controller
 
       // $resources = Resource::available()->lists('name', 'id');
 
+      return view('admin.students.show', compact('student', 'current_loans', 'history', 'resources'));
+    }
+
+    public function showProfile($id)
+    {
+      if ($id < 100000) {
+        $student = Student::findOrFail($id);
+      }
+      else {
+        $student = Student::findByStudentId($request->student_id);
+      }
+      $current_loans = $student->transactions()->with('resource', 'resource.category')->current()->get();
+      $history = $student->transactions()->with('resource', 'resource.category')->history()->get();
+
+      // $resources = Resource::available()->lists('name', 'id');
+
       return view('students.show', compact('student', 'current_loans', 'history', 'resources'));
     }
 
@@ -212,6 +228,6 @@ class StudentController extends Controller
       $student = Student::findOrFail($id);
       $resources = Resource::available()->lists('name', 'id');
 
-      return view('students.history', compact('student', 'resources'));
+      return view('admin.students.history', compact('student', 'resources'));
     }
   }
