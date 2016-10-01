@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Resource;
 use App\Category;
-use App\Transaction;
+use App\Loan;
 
 
 use App\Http\Requests;
@@ -16,7 +16,7 @@ use App\Repositories\ResourceRepository;
 
 use Carbon\Carbon;
 
-class TransactionController extends Controller
+class LoanController extends Controller
 {
     /**
      * Display a list of all of the user's students.
@@ -26,15 +26,15 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::with('student', 'resource')->get();
+        $loans = Loan::with('student', 'resource')->get();
 
-        return view('admin.transactions.index', compact('transactions'));
+        return view('admin.loans.index', compact('loans'));
     }
 
     public function destroy($id){
       if($id){
-        $transaction = Transaction::findOrFail($id);
-        $transaction->delete();
+        $loan = Loan::findOrFail($id);
+        $loan->delete();
       }
       return redirect()->back();
   }

@@ -53,7 +53,7 @@
                             <span class="small text-muted">
                                 {{ $student->id_number }}
                             </span>
-                                <span class="badge pull-right">{{ $student->open_transactions()->count() }} {{ str_plural('item', $student->open_transactions()->count()) }}</span>
+                                <span class="badge pull-right">{{ $student->open_loans()->count() }} {{ str_plural('item', $student->open_loans()->count()) }}</span>
                     </a>
                     @endforeach
                 </div>

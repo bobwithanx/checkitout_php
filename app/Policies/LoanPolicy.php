@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\Transaction;
+use App\Loan;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TransactionPolicy
+class LoanPolicy
 {
     use HandlesAuthorization;
 
@@ -17,7 +17,7 @@ class TransactionPolicy
      * @param  Student  $student
      * @return bool
      */
-    public function destroy(User $user, Transaction $transaction)
+    public function destroy(User $user, Loan $loan)
     {
         return true;
     }

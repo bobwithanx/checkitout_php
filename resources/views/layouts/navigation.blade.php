@@ -42,7 +42,7 @@
                                     <li><a href="{{ url('/admin/students/') }}"><i class="fa fa-btn fa-users"></i> Students</a></li>
                                     <li><a href="{{ url('/admin/resources/') }}"><i class="fa fa-btn fa-gears"></i> Resources</a></li>
                                     <li><a href="{{ url('/admin/categories/') }}"><i class="fa fa-btn fa-tags"></i> Categories</a></li>
-                                    <li><a href="{{ url('/admin/transactions/') }}"><i class="fa fa-btn fa-exchange"></i> Transactions</a></li>
+                                    <li><a href="{{ url('/admin/loans/') }}"><i class="fa fa-btn fa-exchange"></i> Loanss</a></li>
                                     <li role="separator" class="divider"></li>
                                 @endif
         						<li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>

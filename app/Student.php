@@ -41,46 +41,46 @@ class Student extends Model
         return Student::where('id_number', $id_number)->first();
     }
 
-    public function transactions()
+    public function loans()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Loan');
     }
 
-    public function transactions_current()
+    public function loans_current()
     {
-        return $this->hasMany('App\Transaction')->current();
+        return $this->hasMany('App\Loan')->current();
     }
 
-    public function open_transactions()
+    public function open_loans()
     {
-        return $this->hasMany('App\Transaction')->current();
+        return $this->hasMany('App\Loan')->current();
     }
 
-    public function transactionsCountRelation()
+    public function loansCountRelation()
     {
-        return $this->hasOne('App\Transaction')->selectRaw('id, count(*) as count')->groupBy('id');
+        return $this->hasOne('App\Loan')->selectRaw('id, count(*) as count')->groupBy('id');
     // replace module_id with appropriate foreign key if needed
     }
 
-    public function getTransactionsCountAttribute()
+    public function getLoansCountAttribute()
     {
-        return $this->transactionsCountRelation?$this->transactionsCountRelation->count:0;
+        return $this->loansCountRelation?$this->loansCountRelation->count:0;
     }
 
-    public function openTransactionsCountRelation()
+    public function openLoansCountRelation()
     {
-        return $this->hasOne('App\Transaction')->current()->selectRaw('id, count(*) as count')->groupBy('id');
+        return $this->hasOne('App\Loan')->current()->selectRaw('id, count(*) as count')->groupBy('id');
     // replace module_id with appropriate foreign key if needed
     }
 
-    public function getOpenTransactionsCountAttribute()
+    public function getOpenLoansCountAttribute()
     {
-        return $this->openTransactionsCountRelation?$this->openTransactionsCountRelation->count:0;
+        return $this->openLoansCountRelation?$this->openLoansCountRelation->count:0;
     }
 
-    public function openTransactionsCount()
+    public function openLoansCount()
     {
-      return $this->open_transactions()
+      return $this->open_loans()
       ->selectRaw('id, count(*) as aggregate')
       ->groupBy('id');
   }

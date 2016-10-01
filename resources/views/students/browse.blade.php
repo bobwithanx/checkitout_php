@@ -49,8 +49,8 @@ $(document).ready(function(){
                             <a href="{{ url('students/'.$student->id) }}">{{ $student->full_name }}</a>
                         </td>
                         <td class="table-text">{{ $student->id_number }}</td>
-                        <td class="table-text">{{ $student->transactions_current()->count() }}
-                            <span class="text-muted">({{ $student->transactions()->count() }} total)</span>
+                        <td class="table-text">{{ $student->loans_current()->count() }}
+                            <span class="text-muted">({{ $student->loans()->count() }} total)</span>
                         </td>
                         <!-- Delete Button -->
                             @if (Auth::user()->name == 'Admin')
@@ -111,7 +111,7 @@ $(document).ready(function(){
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Import Students</h4>
             </div>
-            
+
             <!-- New Student Form -->
             {!! Form::open(['url' => '/students/import', 'files' => true]) !!}
                 <!-- Modal Body -->
@@ -127,7 +127,7 @@ $(document).ready(function(){
                         {!! Form::file('csv', null) !!}
                     </div>
                 </div>
-                                                
+
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

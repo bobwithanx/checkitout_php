@@ -61,7 +61,7 @@ $(document).ready(function(){
                             <a href="{{ url('/admin/students/'.$student->id) }}">{{ $student->name }}</a>
                         </td>
                         <td class="table-text">{{ $student->id_number }}</td>
-                        <td class="table-text">{{ $student->openTransactionsCount }}
+                        <td class="table-text">{{ $student->openLoansCount }}
                         </td>
                         <!-- Delete Button -->
                             @if (Auth::user()->name == 'Admin')

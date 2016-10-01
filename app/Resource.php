@@ -13,7 +13,7 @@ class Resource extends Model
      * @var array
      */
     protected $fillable = ['name', 'inventory_tag', 'category_id', 'serial_number', 'is_available'];
-    
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -34,9 +34,9 @@ class Resource extends Model
       return $this->belongsTo('App\Category');
     }
 
-    public function transactions()
+    public function loans()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Loan');
     }
 
     public static function findByInventoryTag($tag)

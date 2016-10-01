@@ -103,7 +103,7 @@ class ResourceController extends Controller
     {
       $resource = Resource::findOrFail($id);
 
-      $history = $resource->transactions()->with('student')->get();
+      $history = $resource->loans()->with('student')->get();
 
       return view('admin.resources.show', compact('resource', 'history') );
     }
@@ -112,7 +112,7 @@ class ResourceController extends Controller
     {
       $resource = Resource::findOrFail($id);
 
-      $history = $resource->transactions()->with('student')->get();
+      $history = $resource->loans()->with('student')->get();
 
       return view('resources.show', compact('resource', 'history') );
     }

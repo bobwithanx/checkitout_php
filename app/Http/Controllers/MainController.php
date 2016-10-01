@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Resource;
 use App\Student;
 use App\Category;
-use App\Transaction;
+use App\Loan;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -33,13 +33,13 @@ class MainController extends Controller
 
     public function home()
     {
-        // $students = DB::table('students')->where('transactions.returned_at', null);
-       $students = Transaction::with('student')->where('returned_at', null)->get();
+        // $students = DB::table('students')->where('loans.returned_at', null);
+       $students = Loan::with('student')->where('returned_at', null)->get();
 
-       $students = Student::has('open_transactions')->get();
+       $students = Student::has('open_loans')->get();
        // dd($students->toArray());
 
-        // $students = Student::whereNull('transactions.returned_at');
+        // $students = Student::whereNull('loans.returned_at');
 
         return view('welcome', compact('students'));
     }
@@ -52,16 +52,16 @@ class MainController extends Controller
      */
     public function dashboard()
     {
-        $students = Transaction::all()
+        $students = Loan::all()
         ->where('returned_at', null);
         // ->groupBy('student.full_name');
 
-        // $resources = Transaction::all()
+        // $resources = Loan::all()
         // ->where('returned_at', null);
         // ->groupBy('resource.category.name');
         // $categories = Category::all();
-        $resources = Resource::all()->where('transactions.returned_at', null);
-        $categories = Category::all()->where('resources.transactions.returned_at', null)->sortBy('name');
+        $resources = Resource::all()->where('loans.returned_at', null);
+        $categories = Category::all()->where('resources.loans.returned_at', null)->sortBy('name');
 
         $student_count = Student::all()->count();
         $resource_count = Resource::all()->count();
@@ -77,16 +77,16 @@ class MainController extends Controller
      */
     public function reports()
     {
-        $students = Transaction::all()
+        $students = Loan::all()
         ->where('returned_at', null);
         // ->groupBy('student.full_name');
 
-        // $resources = Transaction::all()
+        // $resources = Loan::all()
         // ->where('returned_at', null);
         // ->groupBy('resource.category.name');
         // $categories = Category::all();
-        $resources = Resource::all()->where('transactions.returned_at', null);
-        $categories = Category::all()->where('resources.transactions.returned_at', null)->sortBy('name');
+        $resources = Resource::all()->where('loans.returned_at', null);
+        $categories = Category::all()->where('resources.loans.returned_at', null)->sortBy('name');
 
         return view('reports', compact('students', 'resources', 'categories'));
     }

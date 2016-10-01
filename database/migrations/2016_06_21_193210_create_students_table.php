@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('id_number')->unique();
-            $table->string('transaction_id')->unsigned()->nullable();
+            $table->string('loan_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

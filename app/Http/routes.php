@@ -31,8 +31,8 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::resource('resources', 'ResourceController');
 	Route::resource('categories', 'CategoryController');
 
-	Route::get('/transactions', 'TransactionController@index');
-	Route::delete('/transactions/{transactions}', 'TransactionController@destroy');
+	Route::get('/loans', 'LoanController@index');
+	Route::delete('/loans/{loans}', 'LoanController@destroy');
 
 	Route::post('/students/import', 'StudentController@import');
 	Route::post('/resources/import', 'ResourceController@import');

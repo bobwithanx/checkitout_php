@@ -80,16 +80,16 @@
 
                     <!-- Table Body -->
                     <tbody>
-                    @foreach ($history as $transaction)
+                    @foreach ($history as $loan)
                             <tr>
                                 <!-- Item Name -->
-                                <td class="table-text"><a href="{{ url('/admin/students/'.$transaction->student->id)}}">{{ $transaction->student->full_name }}</a> <small class="text-muted">{{ $transaction->student->id_number }}</small></td>
-                                <td class="table-text">{{ $transaction->created_at }}</td>
-                                <td class="table-text">{{ $transaction->returned_at }}</td>
+                                <td class="table-text"><a href="{{ url('/admin/students/'.$loan->student->id)}}">{{ $loan->student->full_name }}</a> <small class="text-muted">{{ $loan->student->id_number }}</small></td>
+                                <td class="table-text">{{ $loan->created_at }}</td>
+                                <td class="table-text">{{ $loan->returned_at }}</td>
 
                                 <!-- Delete Button -->
                                 <td>
-                                    <form action="{{ url('/admin/transactions/'.$transaction->id) }}" method="POST">
+                                    <form action="{{ url('/admin/loans/'.$loan->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 

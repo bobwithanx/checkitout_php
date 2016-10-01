@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class Loan extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -24,7 +24,7 @@ class Transaction extends Model
     ];
 
     protected $dates = ['created_at', 'updated_at', 'returned_at'];
-    
+
 
     public function scopeCurrent($query)
     {
@@ -39,7 +39,7 @@ class Transaction extends Model
 
 
     /**
-     * A transaction belongs to a student.
+     * A loan belongs to a student.
      *
      * @var array
      */
@@ -49,7 +49,7 @@ class Transaction extends Model
     }
 
     /**
-     * A transaction belongs to a resource.
+     * A loan belongs to a resource.
      *
      * @var array
      */

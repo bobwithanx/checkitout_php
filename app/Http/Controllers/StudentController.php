@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Student;
 use App\Resource;
 use App\Category;
-use App\Transaction;
+use App\Loan;
 
 use App\Http\Requests;
 use App\Http\Requests\StudentRequest;
@@ -26,7 +26,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-      $students =  Student::with('openTransactionsCount')->get();
+      $students =  Student::with('openLoansCount')->get();
 
       return view('admin.students.index', compact('students'));
     }
@@ -125,7 +125,7 @@ class StudentController extends Controller
 
       if(!empty($resource)) {
 
-        Transaction::create(array(
+        Loan::create(array(
           'student_id' => $student_id,
           'resource_id' => $resource->id
         ));
@@ -142,16 +142,16 @@ class StudentController extends Controller
 
     public function returnItem(Request $request)
     {
-      $transaction = Transaction::findOrFail($request->transaction_id);
+      $loan = Loan::findOrFail($request->loan_id);
 
-      $resource = Resource::findOrFail($transaction->resource_id);
+      $resource = Resource::findOrFail($loan->resource_id);
       $resource->is_available = true;
       $resource->save();
 
-      $transaction->returned_at = Carbon::now();
-      $transaction->save();
+      $loan->returned_at = Carbon::now();
+      $loan->save();
 
-      return redirect('/students/' . $transaction->student->id);
+      return redirect('/students/' . $loan->student->id);
     }
 
     public function destroy(Student $students)
@@ -162,11 +162,11 @@ class StudentController extends Controller
       return redirect('/students');
     }
 
-    public function destroyTransaction(Request $request, Student $student, Transaction $transaction)
+    public function destroyLoan(Request $request, Student $student, Loan $loan)
     {
-      // $this->authorize('destroy', $transaction);
-      $student_id = $transaction->student->id;
-      $transaction->delete();
+      // $this->authorize('destroy', $loan);
+      $student_id = $loan->student->id;
+      $loan->delete();
 
       return redirect('/student/' . $student_id);
     }
@@ -179,8 +179,8 @@ class StudentController extends Controller
       else {
         $student = Student::findByStudentId($request->student_id);
       }
-      $current_loans = $student->transactions()->with('resource', 'resource.category')->current()->get();
-      $history = $student->transactions()->with('resource', 'resource.category')->history()->get();
+      $current_loans = $student->loans()->with('resource', 'resource.category')->current()->get();
+      $history = $student->loans()->with('resource', 'resource.category')->history()->get();
 
       // $resources = Resource::available()->lists('name', 'id');
 
@@ -195,8 +195,8 @@ class StudentController extends Controller
       else {
         $student = Student::findByStudentId($request->student_id);
       }
-      $current_loans = $student->transactions()->with('resource', 'resource.category')->current()->get();
-      $history = $student->transactions()->with('resource', 'resource.category')->history()->get();
+      $current_loans = $student->loans()->with('resource', 'resource.category')->current()->get();
+      $history = $student->loans()->with('resource', 'resource.category')->history()->get();
 
       // $resources = Resource::available()->lists('name', 'id');
 

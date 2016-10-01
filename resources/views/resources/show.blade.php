@@ -79,13 +79,13 @@
 
                     <!-- Table Body -->
                     <tbody>
-                    @foreach ($history as $transaction)
+                    @foreach ($history as $loan)
 
                             <tr>
                                 <!-- Item Name -->
-                                <td class="table-text"><a href="{{ url('students/'.$transaction->student->id)}}">{{ $transaction->student->full_name }}</a> <small class="text-muted">{{ $transaction->student->id_number }}</small></td>
-                                <td class="table-text">{{ $transaction->created_at }}</td>
-                                <td class="table-text">{{ $transaction->returned_at }}</td>
+                                <td class="table-text"><a href="{{ url('students/'.$loan->student->id)}}">{{ $loan->student->full_name }}</a> <small class="text-muted">{{ $loan->student->id_number }}</small></td>
+                                <td class="table-text">{{ $loan->created_at }}</td>
+                                <td class="table-text">{{ $loan->returned_at }}</td>
 
                                 <!-- Delete Button -->
                             </tr>

@@ -101,30 +101,30 @@ button#searchButton.btn.btn-default.active {
                             <th>Actions</th>
                         </thead>
                         <tbody>
-                             @foreach ( $current_loans as $transaction )
+                             @foreach ( $current_loans as $loan )
                             <tr class="table-row">
                                 <!-- Equipment Name -->
                                 <td class="table-text">
-                                    <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }} category"></i>
-                                    <a href="{{ url('/admin/resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                    <i class="fa fa-fw text-muted {{ $loan->resource->category->icon }} category"></i>
+                                    <a href="{{ url('/admin/resources/'.$loan->resource->id) }}">{{ $loan->resource->name }}</a>
                                 </td>
                                 <td class="table-text">
-                                    <span class="text-muted inventory-tag">{{ $transaction->resource->inventory_tag }}</span>
+                                    <span class="text-muted inventory-tag">{{ $loan->resource->inventory_tag }}</span>
                                 </td>
-                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
-                                    @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                    Today, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                    Yesterday, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $loan->created_at }}">
+                                    @if ($loan->created_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $loan->created_at->format('g:i a') }}
+                                    @elseif ($loan->created_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $loan->created_at->format('g:i a') }}
+                                    @elseif ($loan->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $loan->created_at->format('l, g:i a') }}
                                     @else
-                                    {{ $transaction->created_at->format('M j Y, g:i a') }}
+                                    {{ $loan->created_at->format('M j Y, g:i a') }}
                                     @endif</td>
 
                                     <td>
                                         {{ Form::open(['method' => 'POST', 'url' => '/admin/students/' . $student->id . '/return']) }}
-                                        {{ Form::hidden('transaction_id', $transaction->id)}}
+                                        {{ Form::hidden('loan_id', $loan->id)}}
                                     {{ Form::button('<i class="fa fa-calendar-check-o"></i> Check In ', array('type' => 'submit', 'class' => 'btn btn-default btn-xs')) }}
                                     {{ Form::close() }}
                                 </td>
@@ -146,39 +146,39 @@ button#searchButton.btn.btn-default.active {
                         </thead>
                         <!-- Table Body -->
                         <tbody>
-                            @foreach ($history as $transaction)
+                            @foreach ($history as $loan)
                             <tr class="table-row">
                                 <!-- Equipment Name -->
                                 <td class="table-text">
-                                    <i class="fa fa-fw text-muted {{ $transaction->resource->category->icon }}"></i>
-                                    <a href="{{ url('/admin/resources/'.$transaction->resource->id) }}">{{ $transaction->resource->name }}</a>
+                                    <i class="fa fa-fw text-muted {{ $loan->resource->category->icon }}"></i>
+                                    <a href="{{ url('/admin/resources/'.$loan->resource->id) }}">{{ $loan->resource->name }}</a>
                                 </td>
                                 <td class="table-text">
-                                    <span class="text-muted">{{ $transaction->resource->inventory_tag }}</span>
+                                    <span class="text-muted">{{ $loan->resource->inventory_tag }}</span>
                                 </td>
-                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->created_at }}">
-                                    @if ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                    Today, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                    Yesterday, {{ $transaction->created_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $loan->created_at }}">
+                                    @if ($loan->created_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $loan->created_at->format('g:i a') }}
+                                    @elseif ($loan->created_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $loan->created_at->format('g:i a') }}
+                                    @elseif ($loan->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $loan->created_at->format('l, g:i a') }}
                                     @else
-                                    {{ $transaction->created_at->format('M j Y, g:i a') }}
+                                    {{ $loan->created_at->format('M j Y, g:i a') }}
                                     @endif</td>
-                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $transaction->returned_at }}">
-                                    @if ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 0)
-                                    Today, {{ $transaction->returned_at->format('g:i a') }}
-                                    @elseif ($transaction->returned_at->diffInDays(Carbon\Carbon::now()) == 1)
-                                    Yesterday, {{ $transaction->returned_at->format('g:i a') }}
-                                    @elseif ($transaction->created_at->diffInDays(Carbon\Carbon::now())
-                                    < 7) {{ $transaction->created_at->format('l, g:i a') }}
+                                <td class="table-text text-muted" data-toggle="tooltip" data-container="td" data-placement="top" title="{{ $loan->returned_at }}">
+                                    @if ($loan->returned_at->diffInDays(Carbon\Carbon::now()) == 0)
+                                    Today, {{ $loan->returned_at->format('g:i a') }}
+                                    @elseif ($loan->returned_at->diffInDays(Carbon\Carbon::now()) == 1)
+                                    Yesterday, {{ $loan->returned_at->format('g:i a') }}
+                                    @elseif ($loan->created_at->diffInDays(Carbon\Carbon::now())
+                                    < 7) {{ $loan->created_at->format('l, g:i a') }}
                                     @else
-                                    {{ $transaction->returned_at->format('M j Y, g:i a') }}
+                                    {{ $loan->returned_at->format('M j Y, g:i a') }}
                                     @endif
                                 </td>
                                     <td>
-                                        <form action="{{ url('/admin/transactions/'.$transaction->id) }}" method="POST">
+                                        <form action="{{ url('/admin/loans/'.$loan->id) }}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="submit" class="btn btn-xs btn-danger">
