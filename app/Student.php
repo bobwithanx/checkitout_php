@@ -46,12 +46,7 @@ class Student extends Model
         return $this->hasMany('App\Loan');
     }
 
-    public function loans_current()
-    {
-        return $this->hasMany('App\Loan')->current();
-    }
-
-    public function open_loans()
+    public function on_loan()
     {
         return $this->hasMany('App\Loan')->current();
     }
@@ -80,7 +75,7 @@ class Student extends Model
 
     public function openLoansCount()
     {
-      return $this->open_loans()
+      return $this->on_loan()
       ->selectRaw('id, count(*) as aggregate')
       ->groupBy('id');
   }

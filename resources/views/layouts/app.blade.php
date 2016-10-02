@@ -7,14 +7,7 @@
 
     <title>CheckItOut</title>
 
-    <!-- Fonts -->
-    <link href="{{ URL::asset('assets/fonts/font-awesome.css') }}" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ URL::asset('assets/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/app.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/select.dataTables.css') }}" rel="stylesheet">
+    @include('layouts.css')
 
 </head>
 
@@ -23,13 +16,8 @@
     @include('layouts.navigation')
 
     <!-- JavaScripts -->
-    <script src="{{ URL::asset('assets/js/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/dataTables.bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/bootbox.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/jquery.autocomplete.js') }}"></script>
- 
+    @include('layouts.scripts')
+
     @yield('content')
 
 </body>

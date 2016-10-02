@@ -36,7 +36,7 @@ class MainController extends Controller
         // $students = DB::table('students')->where('loans.returned_at', null);
        $students = Loan::with('student')->where('returned_at', null)->get();
 
-       $students = Student::has('open_loans')->get();
+       $students = Student::has('on_loan')->get();
        // dd($students->toArray());
 
         // $students = Student::whereNull('loans.returned_at');

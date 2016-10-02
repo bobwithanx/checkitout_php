@@ -7,27 +7,12 @@
 
     <title>CheckItOut</title>
 
-    <!-- Fonts -->
-    <link href="{{ URL::asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/app.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-{{--     <link href="{{ URL::asset('assets/css/bootstrap-table.min.css') }}" rel="stylesheet">
---}}    <link href="{{ URL::asset('assets/css/select.dataTables.min.css') }}" rel="stylesheet">
+    @include('layouts.css')
 </head>
 
 <body>
 
-    <!-- JavaScripts -->
-    <script src="{{ URL::asset('assets/js/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/dataTables.bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/bootbox.min.js') }}"></script>
-{{--     <script src="{{ URL::asset('assets/js/bootstrap-table.min.js') }}"></script>
---}}
+    @include('layouts.scripts')
 
     @yield('content')
 
